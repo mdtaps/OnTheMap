@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,21 +22,77 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Debug Text Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEo-sv-B2z">
-                                <rect key="frame" x="16" y="447" width="343" height="200"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Awg-Gb-2sN">
+                                <rect key="frame" x="47" y="183.5" width="281" height="300.5"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Udacity Login Logo" translatesAutoresizingMaskIntoConstraints="NO" id="kJM-oc-u9f">
+                                        <rect key="frame" x="0.0" y="0.0" width="281" height="150"/>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Email" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Bs-Bu-tLa">
+                                        <rect key="frame" x="0.0" y="169.5" width="281" height="30"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="x4g-VF-MpA">
+                                        <rect key="frame" x="0.0" y="219" width="281" height="30"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bk9-Ff-d6g">
+                                        <rect key="frame" x="0.0" y="268.5" width="281" height="32"/>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                        <state key="normal" title="Login">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OfH-Ul-HbL"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="x4g-VF-MpA" firstAttribute="width" secondItem="Awg-Gb-2sN" secondAttribute="width" id="Fwo-Jb-AiK"/>
+                                    <constraint firstItem="kJM-oc-u9f" firstAttribute="height" secondItem="Awg-Gb-2sN" secondAttribute="height" multiplier="0.5" id="Vpe-Rp-KZl"/>
+                                    <constraint firstItem="bk9-Ff-d6g" firstAttribute="width" secondItem="Awg-Gb-2sN" secondAttribute="width" id="cIY-Uq-Iyf"/>
+                                    <constraint firstItem="2Bs-Bu-tLa" firstAttribute="width" secondItem="Awg-Gb-2sN" secondAttribute="width" id="d28-Eh-m9L"/>
+                                    <constraint firstItem="kJM-oc-u9f" firstAttribute="width" secondItem="Awg-Gb-2sN" secondAttribute="width" id="sK2-9c-Phb"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u8P-er-WnQ">
+                                <rect key="frame" x="47" y="615" width="281" height="32"/>
+                                <color key="backgroundColor" red="0.23137254901960785" green="0.34901960784313724" blue="0.59607843137254901" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <state key="normal" title="Login with Facebook">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Debug Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHC-YX-keD">
+                                <rect key="frame" x="47" y="492" width="281" height="115"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.43821978569999998" green="0.74990278480000006" blue="0.25387910009999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="sEo-sv-B2z" secondAttribute="bottom" constant="20" id="Ouz-d1-NE8"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="sEo-sv-B2z" secondAttribute="trailing" id="RfU-SR-O9Z"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="sEo-sv-B2z" secondAttribute="leading" id="Vwa-kW-ngA"/>
-                            <constraint firstItem="sEo-sv-B2z" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.3" id="ycd-kk-8R1"/>
+                            <constraint firstItem="Awg-Gb-2sN" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ErX-YF-xlW"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="u8P-er-WnQ" secondAttribute="bottom" constant="20" id="FZk-eG-chT"/>
+                            <constraint firstItem="u8P-er-WnQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XiY-yA-WRq"/>
+                            <constraint firstItem="u8P-er-WnQ" firstAttribute="height" secondItem="bk9-Ff-d6g" secondAttribute="height" id="fbm-XV-M9R"/>
+                            <constraint firstItem="Awg-Gb-2sN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="h8g-Ic-83P"/>
+                            <constraint firstItem="Awg-Gb-2sN" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.75" id="pAS-Ze-gTC"/>
+                            <constraint firstItem="Awg-Gb-2sN" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.45" id="vyp-Iz-tgQ"/>
+                            <constraint firstItem="u8P-er-WnQ" firstAttribute="width" secondItem="Awg-Gb-2sN" secondAttribute="width" id="wXX-Hs-jP8"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="debugTextLabel" destination="bHC-YX-keD" id="rPu-r8-XCM"/>
+                        <outlet property="emailField" destination="2Bs-Bu-tLa" id="LOm-E3-OQj"/>
+                        <outlet property="passwordField" destination="x4g-VF-MpA" id="hPV-Ky-glt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -69,4 +124,7 @@
             <point key="canvasLocation" x="33" y="855"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Udacity Login Logo" width="256" height="256"/>
+    </resources>
 </document>
