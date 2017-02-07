@@ -26,9 +26,38 @@ class UdacityLoginViewController: UIViewController {
     
     @IBAction func loginPressed(_ sender: UIButton) {
         
+        guard let email = emailField.text,
+            let password = passwordField.text else {
+                displayError(error: "Error in text fields")
+                return
+        }
+        
+        if email.isEmpty || password.isEmpty {
+            displayError(error: "Please fill in both email and password")
+            return
+        }
+        
+        
+        UdacityClient.shared.authenticateWithCredentials(email, password) { (success, errorString) in
+            if success {
+                self.completeLogin()
+            } else {
+                performUIUpdatesOnMain {
+                    self.displayError(error: errorString!)
+                }
+                //TODO: Error call
+            }
+        }
+    }
+    
+    private func completeLogin() {
+        
     }
 
-    
+    private func displayError(error: String) {
+        print(error)
+        debugTextLabel.text = error
+    }
 
 
 }
