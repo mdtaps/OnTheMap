@@ -17,6 +17,7 @@ class UdacityClient: NSObject {
     
     var userEmail: String?
     var password: String?
+    var userId: Int?
     
     func udacityPostTask(_ completionHandlerForPost: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) {
         
@@ -32,17 +33,48 @@ class UdacityClient: NSObject {
         
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
-            guard error != nil else {
+            guard error == nil else {
                 sendError("The data returned an error")
                 return
             }
             
+            if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                
+                if statusCode >= 400 && statusCode < 500 {
+                    sendError("Incorrect Email or Password")
+                    return
+                }
+                
+                if statusCode < 200 || statusCode >= 300 {
+                    sendError("Status code returned something other than 2xx: \(statusCode)")
+                    return
+                }
+
+            } else {
+                sendError("Status code from server could not be found")
+            }
             
+            guard let data = data else {
+                sendError("No data returned by request")
+                return
+            }
+            
+            let newData = self.udacityCorrectedData(data)
+            
+            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+            
+            guard let parsedData = GeneralNetworkingClient.shared.jsonObjectFromJsonData(newData) else {
+                sendError("Error parsing Json data")
+                return
+            }
+            
+            completionHandlerForPost(parsedData, nil)
         }
         
         task.resume()
     }
     
+    //Private Functions
     private func udacityUrlRequest() -> NSMutableURLRequest? {
         
         let url = udacityUrl()
@@ -51,20 +83,15 @@ class UdacityClient: NSObject {
         let headers = [
             UdacityClient.HTTPHeaderKey.Accept: UdacityClient.HTTPHeaderValue.ApplicationJson,
             UdacityClient.HTTPHeaderKey.ContentType: UdacityClient.HTTPHeaderValue.ApplicationJson]
-        
+
         guard let userEmail = userEmail, let password = password else {
-            //TODO: Error Handling
             return nil
         }
         
-        let authenticationDict: [String: String] = [
+        let postBody: [String: AnyObject] = ["udacity": [
             "username": userEmail,
-            "password": password
-        ]
-        
-        let postBody: [String: AnyObject] = [
-            "udacity": authenticationDict as AnyObject]
-        
+            "password": password] as AnyObject]
+                
         request.allHTTPHeaderFields = headers
         request.httpBody = GeneralNetworkingClient.shared.jsonDataFromJsonObject(postBody)
         request.httpMethod = "POST"
@@ -79,5 +106,12 @@ class UdacityClient: NSObject {
         components.path = UdacityClient.APIConstants.ApiPath
         
         return components.url!
+    }
+    
+    private func udacityCorrectedData(_ data: Data) -> Data {
+        let range = Range(uncheckedBounds: (5, data.count))
+        let newData = data.subdata(in: range)
+        
+        return newData
     }
 }

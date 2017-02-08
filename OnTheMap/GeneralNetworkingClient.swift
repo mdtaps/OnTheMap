@@ -26,6 +26,20 @@ class GeneralNetworkingClient: NSObject {
         return jsonData
     }
     
+    func jsonObjectFromJsonData(_ data: Data) -> AnyObject? {
+        
+        let jsonObject: AnyObject?
+        
+        do {
+            jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+        
+        return jsonObject
+    }
+    
     
     
 }

@@ -16,19 +16,36 @@ extension UdacityClient {
         UdacityClient.shared.userEmail = userEmail
         UdacityClient.shared.password = password
         
-        getSessionId() { (success, sessionId, error) in
+        getSessionId() { (success, accountKey, error) in
         
             if success {
+                UdacityClient.shared.userId = accountKey
                 completionHandlerForAuthentication(true, nil)
             } else {
-                
+                completionHandlerForAuthentication(false, error!.localizedDescription)
             }
             
         }
     }
     
-    private func getSessionId( completionHandlerForSessionId: @escaping (_ success: Bool, _ sessionId: String?, _ error: NSError?) -> Void) {
+    private func getSessionId( completionHandlerForAccountKey: @escaping (_ success: Bool, _ accountKey: Int?, _ error: NSError?) -> Void) {
         
+        udacityPostTask { (results, error) in
+            if error != nil {
+                completionHandlerForAccountKey(false, nil, error)
+            } else {
+                guard let account = results?["account"] as? [String: AnyObject] else {
+                    completionHandlerForAccountKey(false, nil, NSError(domain: "getSessionId", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account info from parsed Json data"]))
+                    return
+                }
+                
+                if let key = account["key"] as? Int {
+                    completionHandlerForAccountKey(true, key, nil)
+                } else {
+                    completionHandlerForAccountKey(false, nil, NSError(domain: "getSessionId", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account key from parsed Json data"]))
+                }
+            }
+        }
         
     }
 }

@@ -40,12 +40,12 @@ class UdacityLoginViewController: UIViewController {
         
         UdacityClient.shared.authenticateWithCredentials(email, password) { (success, errorString) in
             if success {
+                print("success!!!")
                 self.completeLogin()
             } else {
                 performUIUpdatesOnMain {
                     self.displayError(error: errorString!)
                 }
-                //TODO: Error call
             }
         }
     }
