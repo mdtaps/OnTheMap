@@ -17,7 +17,7 @@ class UdacityClient: NSObject {
     
     var userEmail: String?
     var password: String?
-    var userId: Int?
+    var userId: String?
     
     func udacityPostTask(_ completionHandlerForPost: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) {
         

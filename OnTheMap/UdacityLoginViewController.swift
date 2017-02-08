@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UdacityLoginViewController: UIViewController {
+class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var emailField: UITextField!
@@ -20,6 +20,7 @@ class UdacityLoginViewController: UIViewController {
         super.viewDidLoad()
         
         debugTextLabel.text = ""
+        passwordField.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -59,6 +60,9 @@ class UdacityLoginViewController: UIViewController {
         debugTextLabel.text = error
     }
 
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.isSecureTextEntry = true
+    }
 
 }
 
