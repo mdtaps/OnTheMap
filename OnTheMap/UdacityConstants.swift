@@ -13,7 +13,12 @@ extension UdacityClient {
     struct APIConstants {
         static let ApiScheme = "https"
         static let ApiHost = "www.udacity.com"
-        static let ApiPath = "/api/session"
+        static let ApiPath = "/api"
+    }
+    
+    struct Methods {
+        static let UserId = "/users"
+        static let session = "/session"
     }
     
     struct HTTPHeaderKey {
@@ -23,5 +28,9 @@ extension UdacityClient {
     
     struct HTTPHeaderValue {
         static let ApplicationJson = "application/json"
+    }
+    
+    struct JsonResponseKeys {
+        static let LinkedIn = "linkedin_url"
     }
 }

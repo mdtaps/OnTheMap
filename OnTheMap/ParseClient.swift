@@ -11,5 +11,8 @@ import UIKit
 
 class ParseClient: NSObject {
     
-    
-}
+    func parseGETTask(parameters: [String: String], _ completingHandlerForGET: @escaping (_ success: Bool, _ error: NSError?) -> Void) {
+        
+        
+    }
+ }

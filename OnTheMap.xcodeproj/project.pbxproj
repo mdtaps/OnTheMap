@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF02042B1E4FAB0500BB0AB5 /* ParseConveniceFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF02042A1E4FAB0500BB0AB5 /* ParseConveniceFunctions.swift */; };
 		AF07979C1E4839AD000E96E2 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07979B1E4839AD000E96E2 /* UdacityClient.swift */; };
 		AF07979E1E4839DA000E96E2 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07979D1E4839DA000E96E2 /* UdacityConstants.swift */; };
 		AF6DF3CF1E4443C900D3B805 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6DF3CE1E4443C900D3B805 /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AF02042A1E4FAB0500BB0AB5 /* ParseConveniceFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConveniceFunctions.swift; sourceTree = "<group>"; };
 		AF07979B1E4839AD000E96E2 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		AF07979D1E4839DA000E96E2 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 		AF6DF3CB1E4443C900D3B805 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				AF6DF3FE1E4552E300D3B805 /* ParseClient.swift */,
+				AF02042A1E4FAB0500BB0AB5 /* ParseConveniceFunctions.swift */,
 				AF6DF4001E45787D00D3B805 /* ParseConstants.swift */,
 			);
 			name = Parse;
@@ -315,6 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF02042B1E4FAB0500BB0AB5 /* ParseConveniceFunctions.swift in Sources */,
 				AF6DF3FF1E4552E300D3B805 /* ParseClient.swift in Sources */,
 				AF07979E1E4839DA000E96E2 /* UdacityConstants.swift in Sources */,
 				AF6DF4011E45787D00D3B805 /* ParseConstants.swift in Sources */,

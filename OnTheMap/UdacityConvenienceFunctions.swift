@@ -28,9 +28,21 @@ extension UdacityClient {
         }
     }
     
-    private func getAccountKey( completionHandlerForAccountKey: @escaping (_ success: Bool, _ accountKey: String?, _ error: NSError?) -> Void) {
+    func populatePersonalData(_ completionHandlerForPersonalData: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         
-        udacityPostTask { (results, error) in
+        getUserData() { (success, error) in
+
+                if success {
+                    completionHandlerForPersonalData(success, nil)
+                } else {
+                    completionHandlerForPersonalData(success, error?.localizedDescription)
+                }
+        }
+    }
+    
+    private func getAccountKey(completionHandlerForAccountKey: @escaping (_ success: Bool, _ accountKey: String?, _ error: NSError?) -> Void) {
+        
+        udacityPOSTTaskWith(method: UdacityClient.Methods.session) { (results, error) in
             if error != nil {
                 completionHandlerForAccountKey(false, nil, error)
             } else {
@@ -40,6 +52,7 @@ extension UdacityClient {
                 }
                 
                 if let key = account["key"] as? String {
+                    print(key)
                     completionHandlerForAccountKey(true, key, nil)
                 } else {
                     completionHandlerForAccountKey(false, nil, NSError(domain: "getSessionId", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account key from parsed Json data"]))
@@ -47,6 +60,49 @@ extension UdacityClient {
             }
         }
         
+    }
+    
+    private func getUserData(_ completionHandlerForUserData: @escaping (_ success: Bool, _ error: NSError?) -> Void ) {
+    
+        guard let userId = userId else {
+            completionHandlerForUserData(false, NSError(domain: "getUserData", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to make request, userId not established"]))
+            return
+        }
+        
+        udacityGETTaskWith(urlMethod: (UdacityClient.Methods.UserId + "/\(userId)")) { (results, error) in
+            
+            func sendError(_ errorString: String) {
+                completionHandlerForUserData(false, NSError(domain: "getUserData", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString]))
+            }
+            
+            if error != nil {
+                completionHandlerForUserData(false, error)
+            } else {
+                guard let user = results?["user"] as? AnyObject else {
+                    sendError("Unable to find \"user\" in: \(results)")
+                    return
+                }
+                
+                guard let firstName = user["first_name"] as? String else {
+                    sendError("Unable to find \"first_name\" in \(results)")
+                    return
+                }
+                
+                self.userFirstName = firstName
+                
+                guard let lastName = user["last_name"] as? String else {
+                    sendError("Unable to find \"last_name\" in \(results)")
+                    return
+                }
+                
+                self.userLastName = lastName
+                
+                print(lastName + ", " + firstName)
+                
+                completionHandlerForUserData(true, nil)
+            }
+            
+        }
     }
 }
 

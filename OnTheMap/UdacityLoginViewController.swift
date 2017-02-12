@@ -52,7 +52,17 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func completeLogin() {
-        
+        UdacityClient.shared.populatePersonalData() { ( success, error) in
+            if let error = error {
+                performUIUpdatesOnMain {
+                    self.displayError(error: error)
+                }
+            }
+            
+            if success {
+                print("Personal Data collected!")
+            }
+        }
     }
 
     private func displayError(error: String) {

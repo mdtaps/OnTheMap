@@ -40,6 +40,30 @@ class GeneralNetworkingClient: NSObject {
         return jsonObject
     }
     
+    //Check data task completion handler parameters
+    func checkDataTask(error: Error?) -> Bool {
+        if error == nil {
+            return true
+        } else {
+            return false
+        }
+    }
     
+    func checkDataTask(response: URLResponse?) -> Bool {
+        if let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode < 300 {
+            return true
+        } else {
+            print("\((response as! HTTPURLResponse).statusCode)")
+            return false
+        }
+    }
+    
+    func checkDataTask(data: Data?) -> Bool {
+        if data != nil {
+            return true
+        } else {
+            return false
+        }
+    }
     
 }

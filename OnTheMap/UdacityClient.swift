@@ -19,14 +19,17 @@ class UdacityClient: NSObject {
     var password: String?
     var userId: String?
     
-    func udacityPostTask(_ completionHandlerForPost: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) {
+    var userFirstName: String?
+    var userLastName: String?
+    
+    func udacityPOSTTaskWith(method: String, _ completionHandlerForPOST: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) {
         
         func sendError(_ error: String) {
             let userInfo = [NSLocalizedDescriptionKey: error]
-            completionHandlerForPost(nil, NSError(domain: "udacityPostTask", code: 1, userInfo: userInfo))
+            completionHandlerForPOST(nil, NSError(domain: "udacityPostTask", code: 1, userInfo: userInfo))
         }
         
-        guard let request = udacityUrlRequest() else {
+        guard let request = udacityUrlPOSTRequestWith(method: method) else {
             sendError("Unable to create URL Request")
             return
         }
@@ -61,23 +64,76 @@ class UdacityClient: NSObject {
             
             let newData = self.udacityCorrectedData(data)
             
-            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
-            
             guard let parsedData = GeneralNetworkingClient.shared.jsonObjectFromJsonData(newData) else {
                 sendError("Error parsing Json data")
                 return
             }
             
-            completionHandlerForPost(parsedData, nil)
+            print(parsedData)
+            
+            completionHandlerForPOST(parsedData, nil)
         }
         
         task.resume()
     }
     
-    //Private Functions
-    private func udacityUrlRequest() -> NSMutableURLRequest? {
+    func udacityGETTaskWith(urlMethod: String, completionHandlerForGET: @escaping (AnyObject?, _ error: NSError?) -> Void) {
         
-        let url = udacityUrl()
+        func sendError(error: String) {
+            completionHandlerForGET(nil, NSError(domain: "udacityGETTaskWith", code: 1, userInfo: [NSLocalizedDescriptionKey: error]))
+        }
+        
+        guard let request = udacityUrlGETRequestWith(method: urlMethod) else {
+            sendError(error: "Failed to create URL request")
+            return
+        }
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            guard GeneralNetworkingClient.shared.checkDataTask(error: error) else {
+                sendError(error: error!.localizedDescription)
+                return
+            }
+            
+            guard GeneralNetworkingClient.shared.checkDataTask(response: response) else {
+                sendError(error: "Status code returned something other than 2xx")
+                return
+            }
+            
+            guard GeneralNetworkingClient.shared.checkDataTask(data: data) else {
+                sendError(error: "No data returned with request")
+                return
+            }
+            
+            let newData = self.udacityCorrectedData(data!)
+            
+            guard let parsedData = GeneralNetworkingClient.shared.jsonObjectFromJsonData(newData) else {
+                sendError(error: "Error parsing Json data")
+                return
+            }
+            
+            completionHandlerForGET(parsedData, nil)
+        }
+        
+        task.resume()
+    }
+    
+    //MARK: Private Functions
+    private func udacityUrlGETRequestWith(method: String) -> NSMutableURLRequest? {
+        
+        let url = udacityUrl(pathExtension: method)
+        print(url.absoluteString)
+        let request = NSMutableURLRequest(url: url)
+        
+        request.httpMethod = "GET"
+        
+        return request
+    }
+
+    private func udacityUrlPOSTRequestWith(method: String) -> NSMutableURLRequest? {
+        
+        let url = udacityUrl(pathExtension: method)
+        print("The url is : \(url.absoluteString)")
         let request = NSMutableURLRequest(url: url)
         
         let headers = [
@@ -99,11 +155,11 @@ class UdacityClient: NSObject {
         return request
     }
     
-    private func udacityUrl() -> URL {
+    private func udacityUrl(pathExtension: String) -> URL {
         var components = URLComponents()
         components.scheme = UdacityClient.APIConstants.ApiScheme
         components.host = UdacityClient.APIConstants.ApiHost
-        components.path = UdacityClient.APIConstants.ApiPath
+        components.path = UdacityClient.APIConstants.ApiPath + pathExtension
         
         return components.url!
     }
