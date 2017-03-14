@@ -45,6 +45,8 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
                 self.completeLogin()
             } else {
                 performUIUpdatesOnMain {
+                    //TO DO: Error Alert
+
                     self.displayError(error: errorString!)
                 }
             }
@@ -55,12 +57,34 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
         UdacityClient.shared.populatePersonalData() { ( success, error) in
             if let error = error {
                 performUIUpdatesOnMain {
+                    //TO DO: Error Alert
                     self.displayError(error: error)
                 }
             }
             
             if success {
                 print("Personal Data collected!")
+            } else {
+                print("Request did not succeed")
+            }
+        }
+        
+        ParseClient.shared.populateStudentPins { (success, errorString) in
+            if let errorString = errorString {
+                //TO DO: Error Alert
+                print(errorString)
+            }
+            
+            if success {
+                print("Successfully populated student pins")
+                if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "MapTabBarController") {
+                    performUIUpdatesOnMain {
+                        self.present(viewController, animated: true, completion: nil)
+
+                    }
+                    
+                }
+                
             }
         }
     }
@@ -73,6 +97,8 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.isSecureTextEntry = true
     }
+    
+    
 
 }
 

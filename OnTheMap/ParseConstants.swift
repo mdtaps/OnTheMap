@@ -11,14 +11,11 @@ import UIKit
 
 extension ParseClient {
     
-    struct APIConstants {
-        //MARK: API Key
-        static let ApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
-        
+    struct APIConstants {        
         //MARK: URL
         static let ApiScheme = "https"
         static let ApiHost = "parse.udacity.com"
-        static let ApiPath = "/parse/classes"
+        static let ApiPath = "/parse/classes/StudentLocation"
         
     }
     
@@ -32,7 +29,17 @@ extension ParseClient {
         static let ApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
     }
     
+    struct URLParameterKeys {
+        static let Limit = "limit"
+        static let Order = "order"
+        static let Skip = "skip"
+    }
     
+    struct URLParameterValues {
+        static let Limit = "100"
+        static let Skip = "400"
+        static let Order = "-updatedAt"
+    }
     
     
 }

@@ -90,17 +90,17 @@ class UdacityClient: NSObject {
         
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
-            guard GeneralNetworkingClient.shared.checkDataTask(error: error) else {
+            guard GeneralNetworkingClient.shared.checkTask(error: error) else {
                 sendError(error: error!.localizedDescription)
                 return
             }
             
-            guard GeneralNetworkingClient.shared.checkDataTask(response: response) else {
+            guard GeneralNetworkingClient.shared.checkTask(response: response) else {
                 sendError(error: "Status code returned something other than 2xx")
                 return
             }
             
-            guard GeneralNetworkingClient.shared.checkDataTask(data: data) else {
+            guard GeneralNetworkingClient.shared.checkTask(data: data) else {
                 sendError(error: "No data returned with request")
                 return
             }
