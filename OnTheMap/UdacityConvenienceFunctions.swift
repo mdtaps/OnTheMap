@@ -47,7 +47,7 @@ extension UdacityClient {
                 completionHandlerForAccountKey(false, nil, error)
             } else {
                 guard let account = results?["account"] as? [String: AnyObject] else {
-                    completionHandlerForAccountKey(false, nil, NSError(domain: "getSessionId", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account info from parsed Json data"]))
+                    completionHandlerForAccountKey(false, nil, NSError(domain: "getAccountKey", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account info from parsed Json data"]))
                     return
                 }
                 
@@ -55,7 +55,7 @@ extension UdacityClient {
                     print(key)
                     completionHandlerForAccountKey(true, key, nil)
                 } else {
-                    completionHandlerForAccountKey(false, nil, NSError(domain: "getSessionId", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account key from parsed Json data"]))
+                    completionHandlerForAccountKey(false, nil, NSError(domain: "getAccountKey", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account key from parsed Json data"]))
                 }
             }
         }
@@ -72,26 +72,26 @@ extension UdacityClient {
         udacityGETTaskWith(urlMethod: (UdacityClient.Methods.UserId + "/\(userId)")) { (results, error) in
             
             func sendError(_ errorString: String) {
-                completionHandlerForUserData(false, NSError(domain: "getUserData", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString]))
+                completionHandlerForUserData(false, NSError(domain: "udacityGETTaskWith", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString]))
             }
             
             if error != nil {
                 completionHandlerForUserData(false, error)
             } else {
                 guard let user = results?["user"] as? AnyObject else {
-                    sendError("Unable to find \"user\" in: \(results)")
+                    sendError("Unable to find \"user\" in: \(String(describing: results))")
                     return
                 }
                 
                 guard let firstName = user["first_name"] as? String else {
-                    sendError("Unable to find \"first_name\" in \(results)")
+                    sendError("Unable to find \"first_name\" in \(String(describing: results))")
                     return
                 }
                 
                 self.userFirstName = firstName
                 
                 guard let lastName = user["last_name"] as? String else {
-                    sendError("Unable to find \"last_name\" in \(results)")
+                    sendError("Unable to find \"last_name\" in \(String(describing: results))")
                     return
                 }
                 

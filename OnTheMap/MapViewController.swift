@@ -14,10 +14,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     var pointAnnotationsArray = [MKPointAnnotation]()
     
+    var duplicateExists = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
     }
         
     func populatePointAnnotationsFrom(studentData: [StudentInformation]) {
@@ -88,16 +96,59 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-/*    @IBAction func addPin(_ sender: UIBarButtonItem) {
+    @IBAction func addPin(_ sender: UIBarButtonItem) {
         
         //TO DO: Check for user already in existence
+        
+        if UdacityClient.shared.userId != nil {
+            for pin in ParseClient.shared.studentPins {
+                if pin.uniqueKey == UdacityClient.shared.userId {
+                    duplicateExists = true
+                    break
+                }
+            }
+            
+            if duplicateExists {
+                
+            } else {
+                startPinAddingProcess(UIAlertAction())
+            }
+        }
+    }
+    
+    func startPinAddingProcess(_: UIAlertAction) {
+        
         if let locationVC = self.storyboard?.instantiateViewController(withIdentifier: "locationInputVC") as? LocationInputViewController {
             
-            self.navigationController?.pushViewController(locationVC, animated: true)
+            present(locationVC, animated: true)
+        }
+    }
+    
+    func displayAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Dismiss", style: .default) { (_) in
+            self.dismiss(animated: true, completion: nil)
         }
         
+        alert.addAction(action)
+        alert.preferredAction = action
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func displayDuplicateAlert() {
+        let alert = UIAlertController(title: "Duplicate Pin Found",
+                                      message: "You have already posted a student loction. Would you like to overwrite your location?", preferredStyle: .alert)
+        let overwriteAction = UIAlertAction(title: "Overwrite", style: .default, handler: startPinAddingProcess)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (_) in
+            self.dismiss(animated: true, completion: nil)}
+        
+        alert.addAction(overwriteAction)
+        alert.addAction(cancelAction)
+        
+        alert.preferredAction = overwriteAction
+        
+        present(alert, animated: true, completion: nil)
+    }
 
-    } */
-    
-    
 }

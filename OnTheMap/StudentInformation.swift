@@ -23,8 +23,7 @@ struct StudentInformation {
         
         guard let latitude = studentDictionary["latitude"] as? Double,
             let longitude = studentDictionary["longitude"] as? Double,
-            let objectId = studentDictionary["objectId"] as? String,
-            let uniqueKey = studentDictionary["objectId"] as? String else
+            let objectId = studentDictionary["objectId"] as? String else
         {
                 return nil
         }
@@ -32,8 +31,8 @@ struct StudentInformation {
         self.latitude = latitude
         self.longitude = longitude
         self.objectId = objectId
-        self.uniqueKey = uniqueKey
         
+        uniqueKey = studentDictionary["uniqueKey"] as? String ?? ""
         firstName = studentDictionary["firstName"] as? String ?? ""
         lastName = studentDictionary["lastName"] as? String ?? ""
         mapString = studentDictionary["mapString"] as? String ?? ""

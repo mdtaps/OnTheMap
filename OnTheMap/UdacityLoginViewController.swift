@@ -21,7 +21,6 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
         
         debugTextLabel.text = ""
         passwordField.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     
@@ -29,12 +28,12 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
         
         guard let email = emailField.text,
             let password = passwordField.text else {
-                displayError(error: "Error in text fields")
+                displayAlert(title: "Error", message: "Error in text fields")
                 return
         }
         
         if email.isEmpty || password.isEmpty {
-            displayError(error: "Please fill in both email and password")
+            displayAlert(title: "Missing Credentials", message: "Please fill in both email and password")
             return
         }
         
@@ -45,9 +44,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
                 self.completeLogin()
             } else {
                 performUIUpdatesOnMain {
-                    //TO DO: Error Alert
-
-                    self.displayError(error: errorString!)
+                    self.displayAlert(title: "Error", message: errorString!)
                 }
             }
         }
@@ -57,15 +54,14 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
         UdacityClient.shared.populatePersonalData() { ( success, error) in
             if let error = error {
                 performUIUpdatesOnMain {
-                    //TO DO: Error Alert
-                    self.displayError(error: error)
+                    self.displayAlert(title: "Error", message: error)
                 }
             }
             
             if success {
                 print("Personal Data collected!")
             } else {
-                print("Request did not succeed")
+                self.displayAlert(title: "Error", message: "Request did not succeed")
             }
         }
         
@@ -80,18 +76,23 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
                 if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "MapTabBarController") {
                     performUIUpdatesOnMain {
                         self.present(viewController, animated: true, completion: nil)
-
                     }
                     
                 }
-                
             }
         }
     }
 
-    private func displayError(error: String) {
-        print(error)
-        debugTextLabel.text = error
+    private func displayAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Dismiss", style: .default) { (_) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(action)
+        alert.preferredAction = action
+        
+        present(alert, animated: true, completion: nil)
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {

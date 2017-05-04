@@ -12,55 +12,157 @@ import CoreLocation
 class LocationInputViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var locationTextField: UITextField!
-    
-    var placemark: CLPlacemark?
+    @IBOutlet var locationInputView: UIView!
+    @IBOutlet weak var submitButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationTextField.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        locationTextField.becomeFirstResponder()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
     }
     
     @IBAction func dropPin() {
         
         guard let locationText = locationTextField.text else {
             //TO DO: Call error pop-up
+            print("Location Text failing")
             return
         }
         
-        createLocationFromString(locationString: locationText)
-        
-        if let linkVC = self.storyboard?.instantiateViewController(withIdentifier: "linkInput") as? LinkInputViewController {
-            linkVC.placemark = placemark
+        createLocationFromString(locationString: locationText) { (coordinate, locality, error) in
             
-            present(linkVC, animated: true, completion: nil)
+            guard error == nil else {
+                let errorString = error?.localizedDescription ?? "An unknown error occured"
+                
+                self.displayError(message: errorString)
+                return
+            }
+            
+            guard coordinate != nil else {
+                self.displayError(message: "No coordinate exists")
+                return
+            }
+            
+            if let linkVC = self.storyboard?.instantiateViewController(withIdentifier: "linkInput") as? LinkInputViewController {
+                
+                linkVC.coordinate = coordinate!
+                linkVC.locality = locality ?? "Location Unknown"
+                
+                performUIUpdatesOnMain {
+                    self.present(linkVC, animated: true, completion: nil)
+                }
+            }
         }
     }
     
-    private func createLocationFromString(locationString: String) {
+    private func createLocationFromString(locationString: String, _ completionHandlerFromLocationString: @escaping(_ coordinate: CLLocationCoordinate2D?, _ locality: String?, _ error: NSError?) -> Void) {
         let geocoder = CLGeocoder()
+        
         geocoder.geocodeAddressString(locationString) { (placemarkDict, error) in
+            
+            var coordinate: CLLocationCoordinate2D?
+            var locality: String?
+            
+            func sendError(errorString: String) {
+                completionHandlerFromLocationString(nil,
+                                                    nil,
+                                                    NSError(domain: "createLocationFromString", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString])
+                )
+            }
+            
             guard error == nil else {
-                //TO DO: Call error pop-up
+                let errorString = error?.localizedDescription ?? "An error occured while getting address"
+                sendError(errorString: errorString)
                 return
             }
             
             guard placemarkDict != nil else {
-                //TO DO: Call error pop-up
+                sendError(errorString: "Could not find a location from the name you provided")
                 return
             }
             
             if let placemark = placemarkDict?[0] {
-                self.placemark = placemark
+                
+                if let location = placemark.location {
+                    coordinate = location.coordinate
+                } else {
+                    sendError(errorString: "Creating location failed")
+                    return
+                }
+                    
+                if let placemarkLocality = placemark.locality {
+                    locality = placemarkLocality
+                }
+            }
+            
+            completionHandlerFromLocationString(coordinate, locality, nil)
+        }
+    }
+}
+
+
+extension LocationInputViewController {
+    
+    //Respond to Taps
+    @IBAction func unselectTextField(handler: UITapGestureRecognizer) {
+        
+        locationTextField.resignFirstResponder()
+    }
+    
+    //Respond to Keyboard Notifications
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            if view.frame.origin.y == 0 {
+                
+                
+                
+                view.frame.origin.y -= keyboardSize.height - CGFloat()
             }
         }
     }
     
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            let buttonKeyboardGap: CGFloat = 42.5
+            
+            view.frame.origin.y -= keyboardSize.height - buttonKeyboardGap
+            
+            if view.frame.origin.y != 0 {
+                view.frame.origin.y = 0
+            }
+        }
+    }
     
+    //Displaying Error Alert
+    func displayError(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .actionSheet)
+        
+        let action = UIAlertAction(title: "Dismiss", style: .default) { (_) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(action)
+        alert.preferredAction = action
+        
+        present(alert, animated: true, completion: nil)
+    }
+
 }

@@ -17,6 +17,7 @@ class ParseClient: NSObject {
     
     var studentPins = [StudentInformation]()
     
+    //GET Tasks
     func parseGETTask(_ completingHandlerForGET: @escaping (_ parsedData: AnyObject?, _ error: NSError?) -> Void) {
         
         func sendError(errorString: String) {
@@ -25,7 +26,7 @@ class ParseClient: NSObject {
         
         let parameters = [
             ParseClient.URLParameterKeys.Limit: ParseClient.URLParameterValues.Limit,
-//            ParseClient.URLParameterKeys.Skip: ParseClient.URLParameterValues.Skip,
+            ParseClient.URLParameterKeys.Skip: ParseClient.URLParameterValues.Skip,
             ParseClient.URLParameterKeys.Order: ParseClient.URLParameterValues.Order]
         
         guard let request = parseGETrequest(parameters: parameters) else {
@@ -43,7 +44,7 @@ class ParseClient: NSObject {
             
             guard GeneralNetworkingClient.shared.checkTask(response: response) else {
                 let statusCode: Int? = (response as? HTTPURLResponse)?.statusCode
-                sendError(errorString: "Server returned response: \(statusCode)")
+                sendError(errorString: "Server returned response: \(String(describing: statusCode))")
                 return
             }
             
@@ -61,8 +62,6 @@ class ParseClient: NSObject {
         }
         
         task.resume()
-
-        
     }
     
     func parseGETrequest(parameters: [String: String]) -> URLRequest? {
@@ -77,6 +76,61 @@ class ParseClient: NSObject {
         
         return request as URLRequest
     }
+    
+    //POST Tasks
+    func parsePOSTTask(jsonObject: [String: AnyObject], _ completingHandlerForPOST: @escaping (_ postSuccessful: Bool, _ error: NSError?) -> Void) {
+        
+        func sendError(errorString: String) {
+            completingHandlerForPOST(false, NSError(domain: "parsePOSTTask", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString]))
+        }
+        
+        guard let request = parsePOSTrequest(jsonObject) else {
+            sendError(errorString: "Error with returning URL request")
+            return
+        }
+        
+        let task = session.dataTask(with: request) { (data, response, error) in
+            
+            guard GeneralNetworkingClient.shared.checkTask(error: error) else {
+                print(error!.localizedDescription)
+                sendError(errorString: error?.localizedDescription ?? "Data returned an error")
+                return
+            }
+            
+            guard GeneralNetworkingClient.shared.checkTask(response: response) else {
+                let statusCode: Int? = (response as? HTTPURLResponse)?.statusCode
+                sendError(errorString: "Server returned response: \(String(describing: statusCode))")
+                return
+            }
+            
+            guard GeneralNetworkingClient.shared.checkTask(data: data) else {
+                sendError(errorString: "No data returned with request")
+                return
+            }
+            
+            completingHandlerForPOST(true, nil)
+        }
+        
+        task.resume()
+    }
+    
+    func parsePOSTrequest(_ jsonObject: [String: AnyObject]) -> URLRequest? {
+        
+        guard let url = parseUrlWithParameters([:]) else {
+            return nil
+        }
+        
+        guard let request = parseMutableUrlRequestWith(url) else {
+            return nil
+        }
+        
+        request.httpMethod = "POST"
+        request.httpBody = GeneralNetworkingClient.shared.jsonDataFromJsonObject(jsonObject)
+        
+        return request as URLRequest
+    }
+
+
     
     func parseUrlWithParameters(_ parameters: [String: String]) -> URL? {
         
@@ -94,6 +148,7 @@ class ParseClient: NSObject {
         
         return components.url
     }
+    
     
     func parseMutableUrlRequestWith(_ url: URL) -> NSMutableURLRequest? {
         
