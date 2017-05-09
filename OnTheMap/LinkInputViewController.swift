@@ -11,7 +11,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class LinkInputViewController: UIViewController {
+class LinkInputViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var urlTextField: UITextField!
@@ -50,12 +50,12 @@ class LinkInputViewController: UIViewController {
             "latitude":     coordinate.latitude as AnyObject,
             "longitude":    coordinate.longitude as AnyObject,
             "uniqueKey":    UdacityClient.shared.userId! as AnyObject,
-            "firstName":    UdacityClient.shared.userFirstName! as AnyObject,
-            "lastName":     UdacityClient.shared.userLastName! as AnyObject,
+            "firstName":    (UdacityClient.shared.userFirstName ?? "Unknown") as AnyObject,
+            "lastName":     (UdacityClient.shared.userLastName ?? "Unknown") as AnyObject,
             "mapString":    locality as AnyObject,
             "mediaURL":     (urlTextField.text ?? "https://www.udacity.com") as AnyObject]
         
-        
+        print(pinData)
         
         ParseClient.shared.submitUserPinData(pinData: pinData) { (success, errorString) in
                 
@@ -72,6 +72,7 @@ class LinkInputViewController: UIViewController {
         }
     }
     
+    //TODO: Fix the dismisal of Modal Views
     func displayAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Dismiss", style: .default) { (_) in
@@ -82,6 +83,10 @@ class LinkInputViewController: UIViewController {
         alert.preferredAction = action
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func dismissInputViewControllers() {
+        presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
 }

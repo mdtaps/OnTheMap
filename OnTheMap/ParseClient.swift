@@ -26,7 +26,6 @@ class ParseClient: NSObject {
         
         let parameters = [
             ParseClient.URLParameterKeys.Limit: ParseClient.URLParameterValues.Limit,
-            ParseClient.URLParameterKeys.Skip: ParseClient.URLParameterValues.Skip,
             ParseClient.URLParameterKeys.Order: ParseClient.URLParameterValues.Order]
         
         guard let request = parseGETrequest(parameters: parameters) else {
@@ -84,7 +83,7 @@ class ParseClient: NSObject {
             completingHandlerForPOST(false, NSError(domain: "parsePOSTTask", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString]))
         }
         
-        guard let request = parsePOSTrequest(jsonObject) else {
+        guard let request = parsePOSTRequest(jsonObject) else {
             sendError(errorString: "Error with returning URL request")
             return
         }
@@ -114,7 +113,7 @@ class ParseClient: NSObject {
         task.resume()
     }
     
-    func parsePOSTrequest(_ jsonObject: [String: AnyObject]) -> URLRequest? {
+    func parsePOSTRequest(_ jsonObject: [String: AnyObject]) -> URLRequest? {
         
         guard let url = parseUrlWithParameters([:]) else {
             return nil
@@ -126,6 +125,8 @@ class ParseClient: NSObject {
         
         request.httpMethod = "POST"
         request.httpBody = GeneralNetworkingClient.shared.jsonDataFromJsonObject(jsonObject)
+        request.addValue(HTTPHeaderValues.ContentType, forHTTPHeaderField: HTTPHeaderKeys.ContentType)
+
         
         return request as URLRequest
     }
@@ -140,12 +141,15 @@ class ParseClient: NSObject {
         components.path = APIConstants.ApiPath
         var queryItems = [URLQueryItem]()
         
-        for pairs in parameters {
-            queryItems.append(URLQueryItem(name: pairs.key, value: pairs.value))
+        if !parameters.isEmpty {
+            for pairs in parameters {
+                queryItems.append(URLQueryItem(name: pairs.key, value: pairs.value))
+            }
+        
+            components.queryItems = queryItems
         }
         
-        components.queryItems = queryItems
-        
+        print(components.url?.absoluteString ?? "There is no URL")
         return components.url
     }
     

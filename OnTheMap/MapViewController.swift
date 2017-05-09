@@ -104,12 +104,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             for pin in ParseClient.shared.studentPins {
                 if pin.uniqueKey == UdacityClient.shared.userId {
                     duplicateExists = true
+                    print("Duplicate found")
                     break
                 }
             }
             
             if duplicateExists {
-                
+                displayDuplicateAlert()
             } else {
                 startPinAddingProcess(UIAlertAction())
             }
@@ -126,9 +127,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func displayAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Dismiss", style: .default) { (_) in
-            self.dismiss(animated: true, completion: nil)
-        }
+        let action = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
         
         alert.addAction(action)
         alert.preferredAction = action
@@ -140,8 +139,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let alert = UIAlertController(title: "Duplicate Pin Found",
                                       message: "You have already posted a student loction. Would you like to overwrite your location?", preferredStyle: .alert)
         let overwriteAction = UIAlertAction(title: "Overwrite", style: .default, handler: startPinAddingProcess)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (_) in
-            self.dismiss(animated: true, completion: nil)}
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(overwriteAction)
         alert.addAction(cancelAction)
@@ -150,5 +148,4 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         present(alert, animated: true, completion: nil)
     }
-
 }

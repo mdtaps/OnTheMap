@@ -21,11 +21,13 @@ extension ParseClient {
     struct HTTPHeaderKeys {
         static let ApplicationId = "X-Parse-Application-Id"
         static let ApiKey = "X-Parse-REST-API-Key"
+        static let ContentType = "Content-Type"
     }
     
     struct HTTPHeaderValues {
         static let ApplicationId = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
         static let ApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+        static let ContentType = "application/json"
     }
     
     struct URLParameterKeys {
@@ -37,7 +39,7 @@ extension ParseClient {
     struct URLParameterValues {
         static let Limit = "200"
         static let Skip = "400"
-        static let Order = "updatedAt"
+        static let Order = "-createdAt"
     }
     
     
