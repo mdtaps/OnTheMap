@@ -130,36 +130,60 @@ class ParseClient: NSObject {
         
         return request as URLRequest
     }
-
-
     
-    func parseUrlWithParameters(_ parameters: [String: String]) -> URL? {
+    //PUT Task
+    func parsePUTTask(jsonObject: [String: AnyObject], _ completingHandlerForPUT: @escaping (_ postSuccessful: Bool, _ error: NSError?) -> Void) {
         
-        var components = URLComponents()
-        components.scheme = APIConstants.ApiScheme
-        components.host = APIConstants.ApiHost
-        components.path = APIConstants.ApiPath
-        var queryItems = [URLQueryItem]()
-        
-        if !parameters.isEmpty {
-            for pairs in parameters {
-                queryItems.append(URLQueryItem(name: pairs.key, value: pairs.value))
-            }
-        
-            components.queryItems = queryItems
+        func sendError(errorString: String) {
+            completingHandlerForPUT(false, NSError(domain: "parsePUTTask", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString]))
         }
         
-        print(components.url?.absoluteString ?? "There is no URL")
-        return components.url
+        guard let request = parsePUTRequest(jsonObject) else {
+            sendError(errorString: "Error with returning URL request")
+            return
+        }
+        
+        let task = session.dataTask(with: request) { (data, response, error) in
+            
+            guard GeneralNetworkingClient.shared.checkTask(error: error) else {
+                print(error!.localizedDescription)
+                sendError(errorString: error?.localizedDescription ?? "Data returned an error")
+                return
+            }
+            
+            guard GeneralNetworkingClient.shared.checkTask(response: response) else {
+                let statusCode: Int? = (response as? HTTPURLResponse)?.statusCode
+                sendError(errorString: "Server returned response: \(String(describing: statusCode))")
+                return
+            }
+            
+            guard GeneralNetworkingClient.shared.checkTask(data: data) else {
+                sendError(errorString: "No data returned with request")
+                return
+            }
+            
+            completingHandlerForPUT(true, nil)
+        }
+        
+        task.resume()
     }
     
-    
-    func parseMutableUrlRequestWith(_ url: URL) -> NSMutableURLRequest? {
+    func parsePUTRequest(_ jsonObject: [String: AnyObject]) -> URLRequest? {
         
-        let request = NSMutableURLRequest(url: url)
-        request.addValue(HTTPHeaderValues.ApiKey, forHTTPHeaderField: HTTPHeaderKeys.ApiKey)
-        request.addValue(HTTPHeaderValues.ApplicationId, forHTTPHeaderField: HTTPHeaderKeys.ApplicationId)
+        guard var url = parseUrlWithParameters([:]) else {
+            return nil
+        }
         
-        return request
+        url.appendPathExtension("/\(UdacityClient.shared.userId!)")
+        
+        guard let request = parseMutableUrlRequestWith(url) else {
+            return nil
+        }
+        
+        request.httpMethod = "PUT"
+        request.httpBody = GeneralNetworkingClient.shared.jsonDataFromJsonObject(jsonObject)
+        request.addValue(HTTPHeaderValues.ContentType, forHTTPHeaderField: HTTPHeaderKeys.ContentType)
+        
+        return request as URLRequest
     }
- }
+}

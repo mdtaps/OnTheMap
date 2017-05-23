@@ -15,18 +15,20 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var locationInputView: UIView!
     @IBOutlet weak var submitButton: UIButton!
     
+    var duplicateExists = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationTextField.delegate = self
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -61,55 +63,12 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
                 
                 linkVC.coordinate = coordinate!
                 linkVC.locality = locality ?? "Location Unknown"
+                linkVC.duplicateExists = self.duplicateExists
                 
                 performUIUpdatesOnMain {
                     self.present(linkVC, animated: true, completion: nil)
                 }
             }
-        }
-    }
-    
-    private func createLocationFromString(locationString: String, _ completionHandlerFromLocationString: @escaping(_ coordinate: CLLocationCoordinate2D?, _ locality: String?, _ error: NSError?) -> Void) {
-        let geocoder = CLGeocoder()
-        
-        geocoder.geocodeAddressString(locationString) { (placemarkDict, error) in
-            
-            var coordinate: CLLocationCoordinate2D?
-            var locality: String?
-            
-            func sendError(errorString: String) {
-                completionHandlerFromLocationString(nil,
-                                                    nil,
-                                                    NSError(domain: "createLocationFromString", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString])
-                )
-            }
-            
-            guard error == nil else {
-                let errorString = error?.localizedDescription ?? "An error occured while getting address"
-                sendError(errorString: errorString)
-                return
-            }
-            
-            guard placemarkDict != nil else {
-                sendError(errorString: "Could not find a location from the name you provided")
-                return
-            }
-            
-            if let placemark = placemarkDict?[0] {
-                
-                if let location = placemark.location {
-                    coordinate = location.coordinate
-                } else {
-                    sendError(errorString: "Creating location failed")
-                    return
-                }
-                    
-                if let placemarkLocality = placemark.locality {
-                    locality = placemarkLocality
-                }
-            }
-            
-            completionHandlerFromLocationString(coordinate, locality, nil)
         }
     }
 }
@@ -130,9 +89,7 @@ extension LocationInputViewController {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             
             if view.frame.origin.y == 0 {
-                
-                
-                
+        
                 view.frame.origin.y -= keyboardSize.height - CGFloat()
             }
         }

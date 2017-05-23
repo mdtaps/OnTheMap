@@ -30,6 +30,11 @@ extension ParseClient {
         static let ContentType = "application/json"
     }
     
+    struct HTTPMethod {
+        static let Post = "POST"
+        static let Put = "PUT"
+    }
+    
     struct URLParameterKeys {
         static let Limit = "limit"
         static let Order = "order"

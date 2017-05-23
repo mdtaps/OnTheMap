@@ -12,6 +12,8 @@ class UsersTableViewController: UITableViewController {
     
     @IBOutlet var usersTableView: UITableView!
     
+    var duplicateExists = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

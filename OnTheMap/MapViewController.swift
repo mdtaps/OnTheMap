@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate  {
 
     @IBOutlet weak var mapView: MKMapView!
     var pointAnnotationsArray = [MKPointAnnotation]()
@@ -120,6 +120,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func startPinAddingProcess(_: UIAlertAction) {
         
         if let locationVC = self.storyboard?.instantiateViewController(withIdentifier: "locationInputVC") as? LocationInputViewController {
+            
+            locationVC.duplicateExists = duplicateExists
             
             present(locationVC, animated: true)
         }
