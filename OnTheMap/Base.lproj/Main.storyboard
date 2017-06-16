@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -153,10 +153,10 @@
             </objects>
             <point key="canvasLocation" x="1909.5999999999999" y="817.24137931034488"/>
         </scene>
-        <!--Location Input View Controller-->
+        <!--Location Input VC-->
         <scene sceneID="Aox-LP-PbB">
             <objects>
-                <viewController storyboardIdentifier="locationInputVC" id="VtJ-Ro-wqG" customClass="LocationInputViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="locationInputVC" title="Location Input VC" id="VtJ-Ro-wqG" customClass="LocationInputViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GUg-2Q-Ti7"/>
                         <viewControllerLayoutGuide type="bottom" id="ntn-Oe-3vS"/>
@@ -166,7 +166,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="EOJ-S2-yqf">
-                                <rect key="frame" x="0.0" y="228.5" width="375" height="211"/>
+                                <rect key="frame" x="0.0" y="198" width="375" height="272"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where are you studying from?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="ohi-ez-wFV">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="93.5"/>
@@ -186,35 +186,35 @@
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dQF-rw-gyJ">
+                                        <rect key="frame" x="112.5" y="235" width="150" height="37"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                        <state key="normal" title="Submit">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="dropPin" destination="VtJ-Ro-wqG" eventType="touchUpInside" id="ocW-Bj-8pI"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="ohi-ez-wFV" firstAttribute="width" secondItem="EOJ-S2-yqf" secondAttribute="width" id="21a-yC-7tr"/>
                                     <constraint firstItem="IgS-5Y-meu" firstAttribute="width" secondItem="EOJ-S2-yqf" secondAttribute="width" id="Gay-1G-pWO"/>
+                                    <constraint firstItem="dQF-rw-gyJ" firstAttribute="width" secondItem="EOJ-S2-yqf" secondAttribute="width" multiplier="0.4" id="aSe-zv-FKO"/>
                                     <constraint firstItem="IgS-5Y-meu" firstAttribute="height" secondItem="ohi-ez-wFV" secondAttribute="height" id="gT8-qb-Fri"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dQF-rw-gyJ">
-                                <rect key="frame" x="112" y="482" width="150" height="37"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
-                                <state key="normal" title="Submit">
-                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="dropPin" destination="VtJ-Ro-wqG" eventType="touchUpInside" id="ocW-Bj-8pI"/>
-                                </connections>
-                            </button>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAG-Ho-EAi">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <navigationBar contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAG-Ho-EAi">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <color key="barTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </textAttributes>
                                 <items>
                                     <navigationItem id="Okn-Wm-zYc">
                                         <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="hCh-wo-OI7">
                                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <connections>
+                                                <action selector="dismissModalViewController:" destination="VtJ-Ro-wqG" id="Veb-ni-x0n"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -223,11 +223,11 @@
                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="sAG-Ho-EAi" firstAttribute="top" secondItem="GUg-2Q-Ti7" secondAttribute="bottom" id="7QN-jw-c4U"/>
+                            <constraint firstItem="sAG-Ho-EAi" firstAttribute="width" secondItem="6qq-cg-QtX" secondAttribute="width" id="8AN-1p-Tc4"/>
                             <constraint firstItem="EOJ-S2-yqf" firstAttribute="width" secondItem="6qq-cg-QtX" secondAttribute="width" id="Aj1-ot-98E"/>
                             <constraint firstItem="EOJ-S2-yqf" firstAttribute="centerY" secondItem="6qq-cg-QtX" secondAttribute="centerY" id="YtY-rR-DgA"/>
-                            <constraint firstItem="dQF-rw-gyJ" firstAttribute="centerX" secondItem="6qq-cg-QtX" secondAttribute="centerX" id="bWm-9q-njV"/>
-                            <constraint firstItem="dQF-rw-gyJ" firstAttribute="width" secondItem="6qq-cg-QtX" secondAttribute="width" multiplier="0.4" id="kq8-fv-kCt"/>
-                            <constraint firstItem="dQF-rw-gyJ" firstAttribute="top" secondItem="IgS-5Y-meu" secondAttribute="bottom" constant="42.5" id="r5I-DU-0s5"/>
+                            <constraint firstItem="sAG-Ho-EAi" firstAttribute="centerX" secondItem="6qq-cg-QtX" secondAttribute="centerX" id="aCM-as-cEI"/>
                             <constraint firstItem="EOJ-S2-yqf" firstAttribute="centerX" secondItem="6qq-cg-QtX" secondAttribute="centerX" id="zQK-3h-ACO"/>
                         </constraints>
                         <connections>
@@ -237,6 +237,7 @@
                     <connections>
                         <outlet property="locationInputView" destination="6qq-cg-QtX" id="B86-Wt-fUp"/>
                         <outlet property="locationTextField" destination="IgS-5Y-meu" id="77K-gz-mRB"/>
+                        <outlet property="navigationBar" destination="sAG-Ho-EAi" id="BVw-Qd-337"/>
                         <outlet property="submitButton" destination="dQF-rw-gyJ" id="pjX-rU-fJ8"/>
                     </connections>
                 </viewController>
@@ -269,17 +270,28 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Wkz-Vb-TMO">
                                 <rect key="frame" x="0.0" y="467" width="375" height="200"/>
                             </mapView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="YlE-Gj-Twa">
-                                <rect key="frame" x="0.0" y="228" width="375" height="211"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="YlE-Gj-Twa">
+                                <rect key="frame" x="-0.5" y="197" width="375" height="274"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter a URL for Your Map Point" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="srW-o3-yLJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="93.5"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I5f-yb-Hj8">
+                                        <rect key="frame" x="94" y="0.0" width="187.5" height="39"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title="Submit Pin">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="submitButtonPressed" destination="hVr-LG-Qpf" eventType="touchUpInside" id="jXg-EJ-aV4"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter a URL for Your Map Point" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="srW-o3-yLJ">
+                                        <rect key="frame" x="19" y="63" width="337.5" height="93.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uJ9-3t-Iut">
-                                        <rect key="frame" x="0.0" y="117.5" width="375" height="93.5"/>
+                                        <rect key="frame" x="0.0" y="180.5" width="375" height="93.5"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
@@ -287,48 +299,44 @@
                                     </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="uJ9-3t-Iut" firstAttribute="height" secondItem="srW-o3-yLJ" secondAttribute="height" id="vuc-wP-2od"/>
+                                    <constraint firstItem="uJ9-3t-Iut" firstAttribute="height" secondItem="srW-o3-yLJ" secondAttribute="height" id="TiP-ef-uNF"/>
+                                    <constraint firstItem="I5f-yb-Hj8" firstAttribute="width" secondItem="YlE-Gj-Twa" secondAttribute="width" multiplier="0.5" id="UCc-g9-xwH"/>
+                                    <constraint firstItem="srW-o3-yLJ" firstAttribute="width" secondItem="YlE-Gj-Twa" secondAttribute="width" multiplier="0.9" id="eqd-aY-R10"/>
+                                    <constraint firstItem="uJ9-3t-Iut" firstAttribute="width" secondItem="YlE-Gj-Twa" secondAttribute="width" id="sXc-hI-gNA"/>
                                 </constraints>
                             </stackView>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMq-Ql-lSX">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <navigationBar contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMq-Ql-lSX">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <color key="barTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <items>
                                     <navigationItem id="An4-QT-h6i">
                                         <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="XkG-4T-Qa6">
                                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <connections>
+                                                <action selector="dismissModalViewController:" destination="hVr-LG-Qpf" id="4yh-YZ-1Og"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I5f-yb-Hj8">
-                                <rect key="frame" x="133" y="116" width="108" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="Button">
-                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="submitButtonPressed" destination="hVr-LG-Qpf" eventType="touchUpInside" id="jXg-EJ-aV4"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="YlE-Gj-Twa" firstAttribute="centerX" secondItem="dxX-S6-9qn" secondAttribute="centerX" id="2Jm-Bl-Yh5"/>
                             <constraint firstItem="Wkz-Vb-TMO" firstAttribute="centerX" secondItem="dxX-S6-9qn" secondAttribute="centerX" id="AON-5m-Pwk"/>
-                            <constraint firstItem="srW-o3-yLJ" firstAttribute="width" secondItem="dxX-S6-9qn" secondAttribute="width" id="gcy-65-mb0"/>
+                            <constraint firstItem="wMq-Ql-lSX" firstAttribute="centerX" secondItem="dxX-S6-9qn" secondAttribute="centerX" id="azT-rh-wn0"/>
+                            <constraint firstItem="YlE-Gj-Twa" firstAttribute="centerY" secondItem="dxX-S6-9qn" secondAttribute="centerY" id="bW0-Xa-ikU"/>
+                            <constraint firstItem="YlE-Gj-Twa" firstAttribute="width" secondItem="dxX-S6-9qn" secondAttribute="width" id="c0m-UW-E9b"/>
+                            <constraint firstItem="YlE-Gj-Twa" firstAttribute="centerX" secondItem="dxX-S6-9qn" secondAttribute="centerX" id="iZw-XH-XTF"/>
                             <constraint firstItem="CS8-3z-V6E" firstAttribute="top" secondItem="Wkz-Vb-TMO" secondAttribute="bottom" id="jgM-dC-Iua"/>
-                            <constraint firstItem="YlE-Gj-Twa" firstAttribute="width" secondItem="dxX-S6-9qn" secondAttribute="width" id="pbm-ni-nOE"/>
+                            <constraint firstItem="wMq-Ql-lSX" firstAttribute="top" secondItem="kWL-kk-mrf" secondAttribute="bottom" id="kQV-Lt-MCR"/>
                             <constraint firstItem="Wkz-Vb-TMO" firstAttribute="width" secondItem="dxX-S6-9qn" secondAttribute="width" id="rwW-tI-dSv"/>
                             <constraint firstItem="Wkz-Vb-TMO" firstAttribute="height" secondItem="dxX-S6-9qn" secondAttribute="height" multiplier="0.3" id="ty1-4G-08F"/>
-                            <constraint firstItem="YlE-Gj-Twa" firstAttribute="centerY" secondItem="dxX-S6-9qn" secondAttribute="centerY" id="wa2-Jl-6R0"/>
+                            <constraint firstItem="wMq-Ql-lSX" firstAttribute="width" secondItem="dxX-S6-9qn" secondAttribute="width" id="x7P-Oq-jyO"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="Wkz-Vb-TMO" id="Dzm-mC-rGM"/>
+                        <outlet property="navigationBar" destination="wMq-Ql-lSX" id="nwn-ZM-C3A"/>
                         <outlet property="urlTextField" destination="uJ9-3t-Iut" id="AFV-zO-uEj"/>
                     </connections>
                 </viewController>

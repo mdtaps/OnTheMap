@@ -13,7 +13,6 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
-    
     @IBOutlet weak var debugTextLabel: UILabel!
     
     override func viewDidLoad() {
@@ -25,6 +24,8 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func loginPressed(_ sender: UIButton) {
+        
+        ActivityIndicator.start(view: view)
         
         guard let email = emailField.text,
             let password = passwordField.text else {
@@ -75,6 +76,7 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
                 print("Successfully populated student pins")
                 if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "MapTabBarController") {
                     performUIUpdatesOnMain {
+                        ActivityIndicator.end(view: self.view)
                         self.present(viewController, animated: true, completion: nil)
                     }
                     

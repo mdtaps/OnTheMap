@@ -15,11 +15,13 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var urlTextField: UITextField!
+    @IBOutlet weak var navigationBar: UINavigationBar!
     
     var coordinate = CLLocationCoordinate2D()
     var locality = ""
     
     var duplicateExists = false
+    var mapVC: MapViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +37,12 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
         
         mapView.addAnnotation(point)
         
+        //Hide border under navBar
+        let img = UIImage()
+        
+        self.navigationBar.shadowImage = img
+        self.navigationBar.setBackgroundImage(img, for: UIBarMetrics.default)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,6 +52,11 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
         let region = MKCoordinateRegion(center: coordinate, span: span)
         
         mapView.setRegion(region, animated: true)
+    }
+    
+    
+    @IBAction func dismissModalViewController(_ sender: UIBarButtonItem) {
+        mapVC?.dismissModalViewControllers()
     }
     
     @IBAction func submitButtonPressed() {
@@ -66,7 +79,7 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
                 } else {
                     print("Success posting user pin to server!")
                     performUIUpdatesOnMain {
-                        self.dismiss(animated: true, completion: nil)
+                        self.mapVC?.dismissModalViewControllers()
                     }
                 }
         }
@@ -75,9 +88,7 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
     //TODO: Fix the dismisal of Modal Views
     func displayAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Dismiss", style: .default) { (_) in
-            self.dismiss(animated: false, completion: { self.dismiss(animated: false, completion: nil) })
-        }
+        let action = UIAlertAction(title: "Dismiss", style: .default, handler: dismissInputViewControllers)
         
         alert.addAction(action)
         alert.preferredAction = action
@@ -85,8 +96,8 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
         present(alert, animated: true, completion: nil)
     }
     
-    func dismissInputViewControllers() {
-        presentingViewController?.dismiss(animated: true, completion: nil)
+    func dismissInputViewControllers(_: UIAlertAction) {
+        self.mapVC?.dismissModalViewControllers()
     }
     
 }

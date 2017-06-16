@@ -21,6 +21,7 @@ class UdacityClient: NSObject {
     
     var userFirstName: String?
     var userLastName: String?
+    var objectId: String?
     
     func udacityPOSTTaskWith(method: String, _ completionHandlerForPOST: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) {
         

@@ -96,7 +96,7 @@ extension UdacityClient {
                 }
                 
                 self.userLastName = lastName
-                
+                                
                 print(lastName + ", " + firstName)
                 
                 completionHandlerForUserData(true, nil)

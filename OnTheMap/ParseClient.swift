@@ -16,6 +16,7 @@ class ParseClient: NSObject {
     let session = URLSession.shared
     
     var studentPins = [StudentInformation]()
+    var userObjectId = ""
     
     //GET Tasks
     func parseGETTask(_ completingHandlerForGET: @escaping (_ parsedData: AnyObject?, _ error: NSError?) -> Void) {
@@ -134,6 +135,8 @@ class ParseClient: NSObject {
     //PUT Task
     func parsePUTTask(jsonObject: [String: AnyObject], _ completingHandlerForPUT: @escaping (_ postSuccessful: Bool, _ error: NSError?) -> Void) {
         
+        print("Put Task")
+        
         func sendError(errorString: String) {
             completingHandlerForPUT(false, NSError(domain: "parsePUTTask", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString]))
         }
@@ -174,13 +177,15 @@ class ParseClient: NSObject {
             return nil
         }
         
-        url.appendPathExtension("/\(UdacityClient.shared.userId!)")
+        url.appendPathComponent("/\(ParseClient.shared.userObjectId)")
+        
+        print("\(url.absoluteString)")
         
         guard let request = parseMutableUrlRequestWith(url) else {
             return nil
         }
         
-        request.httpMethod = "PUT"
+        request.httpMethod = ParseClient.HTTPMethod.Put
         request.httpBody = GeneralNetworkingClient.shared.jsonDataFromJsonObject(jsonObject)
         request.addValue(HTTPHeaderValues.ContentType, forHTTPHeaderField: HTTPHeaderKeys.ContentType)
         

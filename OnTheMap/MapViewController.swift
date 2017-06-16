@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate  {
+class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var pointAnnotationsArray = [MKPointAnnotation]()
@@ -24,6 +24,8 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        print("viewdidappear")
         
         populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
     }
@@ -87,9 +89,14 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
     
     @IBAction func refreshPins(_ sender: UIBarButtonItem) {
         
+        ActivityIndicator.start(view: view)
+        
         UdacityClient.shared.populatePersonalData { (success, error) in
+            
+            ActivityIndicator.end(view: self.view)
+            
             if let error = error {
-                print(error)
+                self.displayAlert(title: "Something Went Wrong", message: error)
             } else if success {
                 self.populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
             }
@@ -98,12 +105,12 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
     
     @IBAction func addPin(_ sender: UIBarButtonItem) {
         
-        //TO DO: Check for user already in existence
-        
+        //Check for user already in existence
         if UdacityClient.shared.userId != nil {
             for pin in ParseClient.shared.studentPins {
                 if pin.uniqueKey == UdacityClient.shared.userId {
                     duplicateExists = true
+                    ParseClient.shared.userObjectId = pin.objectId
                     print("Duplicate found")
                     break
                 }
@@ -122,6 +129,7 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
         if let locationVC = self.storyboard?.instantiateViewController(withIdentifier: "locationInputVC") as? LocationInputViewController {
             
             locationVC.duplicateExists = duplicateExists
+            locationVC.mapVC = self
             
             present(locationVC, animated: true)
         }
@@ -150,4 +158,10 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
         
         present(alert, animated: true, completion: nil)
     }
+    
+    //Function to dismiss modal view controllers
+    func dismissModalViewControllers() {
+        dismiss(animated: true, completion: nil)
+    }
+
 }

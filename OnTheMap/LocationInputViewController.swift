@@ -9,13 +9,17 @@
 import UIKit
 import CoreLocation
 
+@IBDesignable
 class LocationInputViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet var locationInputView: UIView!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var navigationBar: UINavigationBar!
     
     var duplicateExists = false
+    
+    var mapVC: MapViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,10 +27,17 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
         locationTextField.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        //Hide border under navBar
+        let img = UIImage()
+        
+        self.navigationBar.shadowImage = img
+        self.navigationBar.setBackgroundImage(img, for: UIBarMetrics.default)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        
+                
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -36,6 +47,12 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
         
         NotificationCenter.default.removeObserver(self)
     }
+    
+    
+    @IBAction func dismissModalViewController(_ sender: UIBarButtonItem) {
+        mapVC?.dismissModalViewControllers()
+    }
+    
     
     @IBAction func dropPin() {
         
@@ -64,6 +81,8 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
                 linkVC.coordinate = coordinate!
                 linkVC.locality = locality ?? "Location Unknown"
                 linkVC.duplicateExists = self.duplicateExists
+                linkVC.mapVC = self.mapVC
+                
                 
                 performUIUpdatesOnMain {
                     self.present(linkVC, animated: true, completion: nil)
