@@ -8,8 +8,7 @@
 
 import UIKit
 
-class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
-    
+class UdacityLoginViewController: UIViewController {
     
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -51,7 +50,32 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func completeLogin() {
+    @IBAction func createUdacityAccount(_ sender: UIButton) {
+        let app = UIApplication.shared
+        
+        let toOpenString = "https://www.udacity.com"
+        
+        guard let url = URL(string: toOpenString) else {
+            return
+        }
+        
+        app.open(url, options: [:], completionHandler: nil)
+    }
+}
+
+//Text Field Delegate Function
+extension UdacityLoginViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.isSecureTextEntry = true
+    }
+}
+
+extension UdacityLoginViewController {
+    
+
+    fileprivate func completeLogin() {
+        //Pull student data from server
         UdacityClient.shared.populatePersonalData() { ( success, error) in
             if let error = error {
                 performUIUpdatesOnMain {
@@ -59,17 +83,19 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             
-            if success {
-                print("Personal Data collected!")
-            } else {
+            if !success {
                 self.displayAlert(title: "Error", message: "Request did not succeed")
+                return
             }
         }
         
+        //Populate pins with student data
         ParseClient.shared.populateStudentPins { (success, errorString) in
             if let errorString = errorString {
-                //TO DO: Error Alert
-                print(errorString)
+                performUIUpdatesOnMain {
+                    self.displayAlert(title: "Student Pins Failed", message: errorString)
+                }
+                return
             }
             
             if success {
@@ -84,8 +110,9 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-
-    private func displayAlert(title: String, message: String) {
+    
+    //Function for displaying alert
+    fileprivate func displayAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Dismiss", style: .default) { (_) in
             self.dismiss(animated: true, completion: nil)
@@ -96,12 +123,5 @@ class UdacityLoginViewController: UIViewController, UITextFieldDelegate {
         
         present(alert, animated: true, completion: nil)
     }
-
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.isSecureTextEntry = true
-    }
-    
-    
-
 }
 

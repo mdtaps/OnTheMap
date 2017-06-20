@@ -135,6 +135,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    @IBAction private func logoutPressed() {
+        
+    }
+    
     func displayAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
