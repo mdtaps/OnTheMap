@@ -33,4 +33,12 @@ extension UdacityClient {
     struct JsonResponseKeys {
         static let LinkedIn = "linkedin_url"
     }
+    
+    struct CookieKeys {
+        static let CookieName = "XSRF-TOKEN"
+    }
+    
+    struct HTTPHeaders {
+        static let XSRFToken = "X-XSRF-TOKEN"
+    }
 }

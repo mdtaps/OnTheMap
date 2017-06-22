@@ -27,7 +27,7 @@ class UdacityClient: NSObject {
         
         func sendError(_ error: String) {
             let userInfo = [NSLocalizedDescriptionKey: error]
-            completionHandlerForPOST(nil, NSError(domain: "udacityPostTask", code: 1, userInfo: userInfo))
+            completionHandlerForPOST(nil, NSError(domain: "udacityPOSTTaskWith", code: 1, userInfo: userInfo))
         }
         
         guard let request = udacityUrlPOSTRequestWith(method: method) else {
@@ -119,14 +119,56 @@ class UdacityClient: NSObject {
         task.resume()
     }
     
+    func udacityDELETETaskWith(urlMethod: String, completionHandlerForDELETE: @escaping (AnyObject?, _ error: NSError?) -> Void) {
+        
+        func sendError(error: String) {
+            completionHandlerForDELETE(nil, NSError(domain: "udacityDELETEaskWith", code: 1, userInfo: [NSLocalizedDescriptionKey: error]))
+        }
+        
+        guard let request = udacityUrlPOSTRequestWith(method: urlMethod) else {
+            sendError(error: "Failed to create Logout request")
+            return
+        }
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            guard GeneralNetworkingClient.shared.checkTask(error: error) else {
+                sendError(error: error!.localizedDescription)
+                return
+            }
+            
+            guard GeneralNetworkingClient.shared.checkTask(response: response) else {
+                sendError(error: "Status code returned something other than 2xx")
+                return
+            }
+            
+            guard GeneralNetworkingClient.shared.checkTask(data: data) else {
+                sendError(error: "No data returned with request")
+                return
+            }
+            
+            let newData = self.udacityCorrectedData(data!)
+            
+            guard let parsedData = GeneralNetworkingClient.shared.jsonObjectFromJsonData(newData) else {
+                sendError(error: "Error parsing Json data")
+                return
+            }
+            
+            completionHandlerForDELETE(parsedData, nil)
+        }
+        
+        task.resume()
+    }
+    
     //MARK: Private Functions
     private func udacityUrlGETRequestWith(method: String) -> NSMutableURLRequest? {
         
         let url = udacityUrl(pathExtension: method)
-        print(url.absoluteString)
         let request = NSMutableURLRequest(url: url)
         
         request.httpMethod = "GET"
+        
+        
         
         return request
     }
@@ -156,6 +198,15 @@ class UdacityClient: NSObject {
         return request
     }
     
+    private func udacityUrlDELETERequestWith(method: String) -> NSMutableURLRequest? {
+        let url = udacityUrl(pathExtension: method)
+        let request = NSMutableURLRequest(url: url)
+        
+        request.httpMethod = "DELETE"
+        
+        return request
+    }
+    
     private func udacityUrl(pathExtension: String) -> URL {
         var components = URLComponents()
         components.scheme = UdacityClient.APIConstants.ApiScheme
@@ -170,5 +221,29 @@ class UdacityClient: NSObject {
         let newData = data.subdata(in: range)
         
         return newData
+    }
+    
+    private func addCookieValue(request: NSMutableURLRequest) -> NSMutableURLRequest? {
+        var xsrfCookie: HTTPCookie? = nil
+        
+        var sharedCookieStorage = HTTPCookieStorage.shared
+        guard let cookies = sharedCookieStorage.cookies else {
+            print("Logout Failed")
+            return nil
+        }
+        
+        for cookie in cookies {
+            if cookie.name == UdacityClient.CookieKeys.CookieName {
+                xsrfCookie = cookie
+                break
+            }
+        }
+        
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: UdacityClient.HTTPHeaders.XSRFToken)
+            return request
+        } else {
+            return nil
+        }
     }
 }
