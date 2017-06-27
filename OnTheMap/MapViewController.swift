@@ -25,8 +25,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        print("viewdidappear")
-        
         populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
     }
         
@@ -43,15 +41,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             mapView.addAnnotations(pointAnnotationsArray)
         }
-        
-        print("Annotations populated")
-        
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        
-        print("map loaded")
-        
+    
         populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
     }
     
@@ -135,8 +128,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    @IBAction private func logoutPressed() {
-        
+    @IBAction func logoutPressed() {
+        UdacityClient.shared.logoutFromUdacity { (success, error) in
+            if let error = error {
+                self.displayAlert(title: "Logout Failure", message: error)
+            } else {
+                if success {
+                    performUIUpdatesOnMain {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                } else {
+                    self.displayAlert(title: "Logout Failure", message: "Logout caused an error")
+                }
+            }
+        }
     }
     
     func displayAlert(title: String, message: String) {
@@ -146,7 +151,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         alert.addAction(action)
         alert.preferredAction = action
         
-        present(alert, animated: true, completion: nil)
+        performUIUpdatesOnMain {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func displayDuplicateAlert() {

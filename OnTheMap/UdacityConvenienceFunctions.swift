@@ -24,7 +24,6 @@ extension UdacityClient {
             } else {
                 completionHandlerForAuthentication(false, error!.localizedDescription)
             }
-            
         }
     }
     
@@ -40,9 +39,22 @@ extension UdacityClient {
         }
     }
     
+    func logoutFromUdacity(completionHandlerForLogout: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        
+        deleteLoginToken() { (success, error) in
+            
+            if success {
+                completionHandlerForLogout(success, nil)
+            } else {
+                completionHandlerForLogout(success, error?.localizedDescription)
+            }
+        }
+        
+    }
+    
     private func getAccountKey(completionHandlerForAccountKey: @escaping (_ success: Bool, _ accountKey: String?, _ error: NSError?) -> Void) {
         
-        udacityPOSTTaskWith(method: UdacityClient.Methods.session) { (results, error) in
+        udacityPOSTTaskWith(method: Methods.session) { (results, error) in
             if error != nil {
                 completionHandlerForAccountKey(false, nil, error)
             } else {
@@ -76,7 +88,7 @@ extension UdacityClient {
             }
             
             if error != nil {
-                completionHandlerForUserData(false, error)
+                sendError(error?.localizedDescription ?? "An unknown error occured")
             } else {
                 guard let user = results?["user"] as? AnyObject else {
                     sendError("Unable to find \"user\" in: \(String(describing: results))")
@@ -101,6 +113,29 @@ extension UdacityClient {
                 
                 completionHandlerForUserData(true, nil)
             }
+            
+        }
+    }
+    
+    private func deleteLoginToken(_ completionHandlerForDeleteToken: @escaping (_ success: Bool, _ error: NSError?) -> Void ) {
+        
+        udacityDELETETaskWith(urlMethod: UdacityClient.Methods.session) { (results, error) in
+            
+            func sendError(_ errorString: String) {
+                completionHandlerForDeleteToken(false, NSError(domain: "udacityDELETETaskWith", code: 1, userInfo: [NSLocalizedDescriptionKey: errorString]))
+            }
+            
+            if error != nil {
+                sendError(error?.localizedDescription ?? "An unknown error occured")
+                return
+            }
+            
+            if results == nil {
+                sendError(error?.localizedDescription ?? "An unknown error occured")
+                return
+            }
+            
+            completionHandlerForDeleteToken(true, nil)
             
         }
     }

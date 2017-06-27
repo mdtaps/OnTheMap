@@ -143,7 +143,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="OnTheMap" id="UK1-p4-snT">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="cfk-FH-Rpe"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="cfk-FH-Rpe">
+                            <connections>
+                                <action selector="logoutPressed" destination="IDV-bf-gk7" id="LdW-K2-hB3"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="Pin" id="GEe-bP-ODa">
                             <connections>
                                 <action selector="addPin:" destination="IDV-bf-gk7" id="ajg-jd-N9v"/>

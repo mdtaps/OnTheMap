@@ -119,13 +119,13 @@ class UdacityClient: NSObject {
         task.resume()
     }
     
-    func udacityDELETETaskWith(urlMethod: String, completionHandlerForDELETE: @escaping (AnyObject?, _ error: NSError?) -> Void) {
+    func udacityDELETETaskWith(urlMethod: String, completionHandlerForDELETE: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) {
         
         func sendError(error: String) {
             completionHandlerForDELETE(nil, NSError(domain: "udacityDELETEaskWith", code: 1, userInfo: [NSLocalizedDescriptionKey: error]))
         }
         
-        guard let request = udacityUrlPOSTRequestWith(method: urlMethod) else {
+        guard let request = udacityUrlDELETERequestWith(method: urlMethod) else {
             sendError(error: "Failed to create Logout request")
             return
         }

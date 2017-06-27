@@ -40,7 +40,6 @@ class UdacityLoginViewController: UIViewController {
         
         UdacityClient.shared.authenticateWithCredentials(email, password) { (success, errorString) in
             if success {
-                print("success!!!")
                 self.completeLogin()
             } else {
                 performUIUpdatesOnMain {
@@ -99,11 +98,12 @@ extension UdacityLoginViewController {
             }
             
             if success {
-                print("Successfully populated student pins")
                 if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "MapTabBarController") {
                     performUIUpdatesOnMain {
                         ActivityIndicator.end(view: self.view)
-                        self.present(viewController, animated: true, completion: nil)
+                        self.present(viewController, animated: true, completion: { 
+                            self.passwordField.text = ""
+                        })
                     }
                     
                 }
