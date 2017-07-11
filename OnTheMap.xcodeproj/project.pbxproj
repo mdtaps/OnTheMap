@@ -213,8 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				AF6DF3FE1E4552E300D3B805 /* ParseClient.swift */,
-				579ED9621ED411C40014D5D3 /* ParseURLClient.swift */,
 				AF02042A1E4FAB0500BB0AB5 /* ParseConveniceFunctions.swift */,
+				579ED9621ED411C40014D5D3 /* ParseURLClient.swift */,
 				AF6DF4001E45787D00D3B805 /* ParseConstants.swift */,
 			);
 			name = Parse;

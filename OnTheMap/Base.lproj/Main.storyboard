@@ -311,7 +311,7 @@
                                         <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="XkG-4T-Qa6">
                                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
-                                                <action selector="dismissModalViewController:" destination="hVr-LG-Qpf" id="4yh-YZ-1Og"/>
+                                                <action selector="dismissInputViewController:" destination="hVr-LG-Qpf" id="9oR-XW-bmF"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -436,11 +436,11 @@
             </objects>
             <point key="canvasLocation" x="1969" y="1578"/>
         </scene>
-        <!--Item-->
+        <!--Table-->
         <scene sceneID="coo-yq-KCV">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PkU-WN-maW" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="77M-bh-eWa"/>
+                    <tabBarItem key="tabBarItem" title="Table" selectedImage="List" id="77M-bh-eWa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EVJ-IJ-1Hc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -457,6 +457,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="List" width="32" height="32"/>
         <image name="Map" width="32" height="32"/>
         <image name="Pin" width="32" height="32"/>
         <image name="Udacity Login Logo" width="256" height="256"/>

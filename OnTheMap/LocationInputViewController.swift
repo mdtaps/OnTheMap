@@ -47,7 +47,7 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func dismissModalViewController(_ sender: UIBarButtonItem) {
-        mapVC?.dismissModalViewControllers()
+        mapVC?.dismissModalViewControllers(withViewUpdate: false)
     }
     
     

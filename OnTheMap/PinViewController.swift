@@ -111,7 +111,43 @@ class PinViewController: UIViewController {
     }
     
     //Function to dismiss modal view controllers
-    func dismissModalViewControllers() {
-        dismiss(animated: true, completion: nil)
+    func dismissModalViewControllers(withViewUpdate updateView: Bool) {
+        
+        defer {
+            dismiss(animated: true, completion: nil)
+        }
+        
+        if updateView {
+            
+            ParseClient.shared.populateStudentPins { (success, errorString) in
+                if let errorString = errorString {
+                    performUIUpdatesOnMain {
+                        self.displayAlert(title: "Student Pins Failed", message: errorString)
+                    }
+                    return
+                }
+                
+                if !success {
+                    self.displayAlert(title: "Error", message: "An unknown error occured while populating pins")
+                    return
+                }
+            }
+            updatePinViews()
+        }
+    }
+    
+    func updatePinViews() {
+        if let vc = self as? MapViewController {
+            vc.populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
+        } else if let vc = self as? UsersTableViewController {
+            vc.usersTableView.reloadData()
+        }
+    }
+}
+
+
+extension PinViewController: UITabBarDelegate {
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        updatePinViews()
     }
 }

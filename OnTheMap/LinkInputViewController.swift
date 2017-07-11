@@ -54,8 +54,8 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    @IBAction func dismissModalViewController(_ sender: UIBarButtonItem) {
-        mapVC?.dismissModalViewControllers()
+    @IBAction func dismissInputViewController(_ sender: AnyObject) {
+        mapVC?.dismissModalViewControllers(withViewUpdate: false)
     }
     
     @IBAction func submitButtonPressed() {
@@ -80,7 +80,7 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
                 } else {
                     print("Success posting user pin to server!")
                     performUIUpdatesOnMain {
-                        self.mapVC?.dismissModalViewControllers()
+                        self.mapVC?.dismissModalViewControllers(withViewUpdate: true)
                     }
                 }
         }
@@ -89,16 +89,11 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
     //TODO: Fix the dismisal of Modal Views
     func displayAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Dismiss", style: .default, handler: dismissInputViewControllers)
+        let action = UIAlertAction(title: "Dismiss", style: .default, handler: dismissInputViewController)
         
         alert.addAction(action)
         alert.preferredAction = action
         
         present(alert, animated: true, completion: nil)
     }
-    
-    func dismissInputViewControllers(_: UIAlertAction) {
-        self.mapVC?.dismissModalViewControllers()
-    }
-    
 }

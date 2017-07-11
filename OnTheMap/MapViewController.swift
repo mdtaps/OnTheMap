@@ -28,6 +28,10 @@ class MapViewController: PinViewController {
         
     func populatePointAnnotationsFrom(studentData: [StudentInformation]) {
         
+        mapView.removeAnnotations(mapView.annotations)
+        pointAnnotationsArray.removeAll()
+        print("populate called")
+        
         for data in studentData {
             
             let pointAnnotation = MKPointAnnotation()
@@ -57,6 +61,7 @@ extension MapViewController: MKMapViewDelegate {
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView?.canShowCallout = true
+            pinView?.animatesDrop = true
             pinView?.pinTintColor = .red
             pinView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         } else {
