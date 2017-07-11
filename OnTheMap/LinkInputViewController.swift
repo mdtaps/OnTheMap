@@ -20,8 +20,7 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
     var coordinate = CLLocationCoordinate2D()
     var locality = ""
     
-    var duplicateExists = false
-    var mapVC: MapViewController?
+    var mapVC: PinViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +69,9 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
             "mapString":    locality as AnyObject,
             "mediaURL":     (urlTextField.text ?? "https://www.udacity.com") as AnyObject]
         
-        ParseClient.shared.submitUserPinData(pinData: pinData, overwriteDuplicate: duplicateExists) { (success, errorString) in
+        ParseClient.shared.submitUserPinData(pinData: pinData,
+                                             overwriteDuplicate: ParseClient.shared.duplicateExists)
+        { (success, errorString) in
                 
                 if !success {
                     performUIUpdatesOnMain {

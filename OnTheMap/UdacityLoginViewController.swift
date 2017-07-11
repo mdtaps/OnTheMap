@@ -21,7 +21,6 @@ class UdacityLoginViewController: UIViewController {
         passwordField.delegate = self
     }
     
-    
     @IBAction func loginPressed(_ sender: UIButton) {
         
         ActivityIndicator.start(view: view)
@@ -72,7 +71,6 @@ extension UdacityLoginViewController: UITextFieldDelegate {
 
 extension UdacityLoginViewController {
     
-
     fileprivate func completeLogin() {
         //Pull student data from server
         UdacityClient.shared.populatePersonalData() { ( success, error) in

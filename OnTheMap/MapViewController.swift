@@ -9,12 +9,10 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: PinViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     var pointAnnotationsArray = [MKPointAnnotation]()
-    
-    var duplicateExists = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +40,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.addAnnotations(pointAnnotationsArray)
         }
     }
+}
+
+extension MapViewController: MKMapViewDelegate {
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-    
+        
         populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
     }
     
@@ -68,7 +69,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         let app = UIApplication.shared
-
+        
         guard let toOpen = view.annotation?.subtitle else {
             return
         }
@@ -79,100 +80,4 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         app.open(url, options: [:], completionHandler: nil)
     }
-    
-    @IBAction func refreshPins(_ sender: UIBarButtonItem) {
-        
-        ActivityIndicator.start(view: view)
-        
-        UdacityClient.shared.populatePersonalData { (success, error) in
-            
-            ActivityIndicator.end(view: self.view)
-            
-            if let error = error {
-                self.displayAlert(title: "Something Went Wrong", message: error)
-            } else if success {
-                self.populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
-            }
-        }
-    }
-    
-    @IBAction func addPin(_ sender: UIBarButtonItem) {
-        
-        //Check for user already in existence
-        if UdacityClient.shared.userId != nil {
-            for pin in ParseClient.shared.studentPins {
-                if pin.uniqueKey == UdacityClient.shared.userId {
-                    duplicateExists = true
-                    ParseClient.shared.userObjectId = pin.objectId
-                    print("Duplicate found")
-                    break
-                }
-            }
-            
-            if duplicateExists {
-                displayDuplicateAlert()
-            } else {
-                startPinAddingProcess(UIAlertAction())
-            }
-        }
-    }
-    
-    func startPinAddingProcess(_: UIAlertAction) {
-        
-        if let locationVC = self.storyboard?.instantiateViewController(withIdentifier: "locationInputVC") as? LocationInputViewController {
-            
-            locationVC.duplicateExists = duplicateExists
-            locationVC.mapVC = self
-            
-            present(locationVC, animated: true)
-        }
-    }
-    
-    @IBAction func logoutPressed() {
-        UdacityClient.shared.logoutFromUdacity { (success, error) in
-            if let error = error {
-                self.displayAlert(title: "Logout Failure", message: error)
-            } else {
-                if success {
-                    performUIUpdatesOnMain {
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                } else {
-                    self.displayAlert(title: "Logout Failure", message: "Logout caused an error")
-                }
-            }
-        }
-    }
-    
-    func displayAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
-        
-        alert.addAction(action)
-        alert.preferredAction = action
-        
-        performUIUpdatesOnMain {
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    func displayDuplicateAlert() {
-        let alert = UIAlertController(title: "Duplicate Pin Found",
-                                      message: "You have already posted a student loction. Would you like to overwrite your location?", preferredStyle: .alert)
-        let overwriteAction = UIAlertAction(title: "Overwrite", style: .default, handler: startPinAddingProcess)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alert.addAction(overwriteAction)
-        alert.addAction(cancelAction)
-        
-        alert.preferredAction = overwriteAction
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    //Function to dismiss modal view controllers
-    func dismissModalViewControllers() {
-        dismiss(animated: true, completion: nil)
-    }
-
 }

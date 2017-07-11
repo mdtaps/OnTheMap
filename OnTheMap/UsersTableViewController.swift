@@ -8,26 +8,31 @@
 
 import UIKit
 
-class UsersTableViewController: UITableViewController {
+class UsersTableViewController: PinViewController {
     
     @IBOutlet var usersTableView: UITableView!
     
-    var duplicateExists = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        usersTableView.delegate = self
+        usersTableView.dataSource = self
     }
+    
+}
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+extension UsersTableViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return ParseClient.shared.studentPins.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let reuseId = "studentCell"
         
@@ -47,7 +52,7 @@ class UsersTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let student = ParseClient.shared.studentPins[indexPath.row]
         
@@ -59,17 +64,5 @@ class UsersTableViewController: UITableViewController {
         let app = UIApplication.shared
         
         app.open(url, options: [:], completionHandler: nil)
-    }
-    
-    @IBAction func refreshPins(_ sender: UIBarButtonItem) {
-        
-        UdacityClient.shared.populatePersonalData { (success, error) in
-            if let error = error {
-                print(error)
-            } else if success {
-                self.usersTableView.reloadData()
-            }
-        }
-
     }
 }

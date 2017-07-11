@@ -17,6 +17,7 @@ class ParseClient: NSObject {
     
     var studentPins = [StudentInformation]()
     var userObjectId = ""
+    var duplicateExists = false
     
     //GET Tasks
     func parseGETTask(_ completingHandlerForGET: @escaping (_ parsedData: AnyObject?, _ error: NSError?) -> Void) {

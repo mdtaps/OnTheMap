@@ -17,9 +17,7 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var navigationBar: UINavigationBar!
     
-    var duplicateExists = false
-    
-    var mapVC: MapViewController?
+    var mapVC: PinViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +28,6 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         //Hide border under navBar
         let img = UIImage()
-        
         self.navigationBar.shadowImage = img
         self.navigationBar.setBackgroundImage(img, for: UIBarMetrics.default)
     }
@@ -80,7 +77,6 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
                 
                 linkVC.coordinate = coordinate!
                 linkVC.locality = locality ?? "Location Unknown"
-                linkVC.duplicateExists = self.duplicateExists
                 linkVC.mapVC = self.mapVC
                 
                 

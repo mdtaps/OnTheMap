@@ -14,13 +14,17 @@ class ActivityIndicator {
     static var activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     
     static func start(view: UIView) {
-        setupActivityIndicator(view: view)
-        view.addSubview(activityIndicator)
+        performUIUpdatesOnMain {
+            setupActivityIndicator(view: view)
+            view.addSubview(activityIndicator)
+        }
     }
     
     static func end(view:UIView) {
-        activityIndicator.stopAnimating()
-        activityIndicator.removeFromSuperview()
+        performUIUpdatesOnMain {
+            activityIndicator.stopAnimating()
+            activityIndicator.removeFromSuperview()
+        }
     }
     
     private static func setupActivityIndicator(view: UIView) {
