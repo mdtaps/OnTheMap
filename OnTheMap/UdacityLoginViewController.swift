@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FacebookLogin
 
 class UdacityLoginViewController: UIViewController {
     
