@@ -8,6 +8,7 @@
 
 import UIKit
 import FacebookLogin
+import FacebookCore
 
 class UdacityLoginViewController: UIViewController {
     
@@ -15,11 +16,19 @@ class UdacityLoginViewController: UIViewController {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var debugTextLabel: UILabel!
     
+    //Button for logging into Facebook
+    let facebookLoginButton = LoginButton(readPermissions: [ .publicProfile])
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         debugTextLabel.text = ""
         passwordField.delegate = self
+        
+        self.view.addSubview(facebookLoginButton)
+        facebookLoginButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        setupFacebookButton()
     }
     
     @IBAction func loginPressed(_ sender: UIButton) {
@@ -42,9 +51,7 @@ class UdacityLoginViewController: UIViewController {
             if success {
                 self.completeLogin()
             } else {
-                performUIUpdatesOnMain {
-                    self.displayAlert(title: "Error", message: errorString!)
-                }
+                self.displayAlert(title: "Error", message: errorString!)
             }
         }
     }
@@ -60,6 +67,7 @@ class UdacityLoginViewController: UIViewController {
         
         app.open(url, options: [:], completionHandler: nil)
     }
+    
 }
 
 //Text Field Delegate Function
@@ -76,9 +84,7 @@ extension UdacityLoginViewController {
         //Pull student data from server
         UdacityClient.shared.populatePersonalData() { ( success, error) in
             if let error = error {
-                performUIUpdatesOnMain {
-                    self.displayAlert(title: "Error", message: error)
-                }
+                self.displayAlert(title: "Error", message: error)
             }
             
             if !success {
@@ -90,14 +96,13 @@ extension UdacityLoginViewController {
         //Populate pins with student data
         ParseClient.shared.populateStudentPins { (success, errorString) in
             if let errorString = errorString {
-                performUIUpdatesOnMain {
-                    self.displayAlert(title: "Student Pins Failed", message: errorString)
-                }
+                self.displayAlert(title: "Student Pins Failed", message: errorString)
                 return
             }
             
             if success {
                 if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "MapTabBarController") {
+                    UdacityClient.shared.loginMethod = .Standard
                     performUIUpdatesOnMain {
                         ActivityIndicator.end(view: self.view)
                         self.present(viewController, animated: true, completion: { 
@@ -109,9 +114,9 @@ extension UdacityLoginViewController {
             }
         }
     }
-    
+        
     //Function for displaying alert
-    fileprivate func displayAlert(title: String, message: String) {
+    func displayAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Dismiss", style: .default) { (_) in
             self.dismiss(animated: true, completion: nil)
@@ -120,7 +125,9 @@ extension UdacityLoginViewController {
         alert.addAction(action)
         alert.preferredAction = action
         
-        present(alert, animated: true, completion: nil)
+        performUIUpdatesOnMain {
+            ActivityIndicator.end(view: self.view)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
-

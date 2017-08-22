@@ -40,7 +40,7 @@ extension ParseClient {
                     return
                 }
                 
-                self.studentPins = StudentInformation.studentsArrayFromStudentData(results)
+                StudentPins.sharedInstance = StudentInformation.studentsArrayFromStudentData(results)
                 
                 completionHandlerForPinData(true, nil)
             }

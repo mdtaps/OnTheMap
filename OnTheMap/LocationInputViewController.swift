@@ -9,9 +9,8 @@
 import UIKit
 import CoreLocation
 
-@IBDesignable
 class LocationInputViewController: UIViewController, UITextFieldDelegate {
-
+    
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet var locationInputView: UIView!
     @IBOutlet weak var submitButton: UIButton!
@@ -26,7 +25,8 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //Hide border under navBar
+        
+        //Hide border line under navBar
         let img = UIImage()
         self.navigationBar.shadowImage = img
         self.navigationBar.setBackgroundImage(img, for: UIBarMetrics.default)
@@ -54,12 +54,15 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
     @IBAction func dropPin() {
         
         guard let locationText = locationTextField.text else {
-            //TO DO: Call error pop-up
-            print("Location Text failing")
+            displayError(message: "Please enter text")
             return
         }
         
+        ActivityIndicator.start(view: self.view)
+        
         createLocationFromString(locationString: locationText) { (coordinate, locality, error) in
+            
+            ActivityIndicator.end(view: self.view)
             
             guard error == nil else {
                 let errorString = error?.localizedDescription ?? "An unknown error occured"
@@ -88,42 +91,8 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
-
 extension LocationInputViewController {
     
-    //Respond to Taps
-    @IBAction func unselectTextField(handler: UITapGestureRecognizer) {
-        
-        locationTextField.resignFirstResponder()
-    }
-    
-    //Respond to Keyboard Notifications
-    
-    func keyboardWillShow(notification: NSNotification) {
-        
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            
-            if view.frame.origin.y == 0 {
-        
-                view.frame.origin.y -= keyboardSize.height - CGFloat()
-            }
-        }
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            
-            let buttonKeyboardGap: CGFloat = 42.5
-            
-            view.frame.origin.y -= keyboardSize.height - buttonKeyboardGap
-            
-            if view.frame.origin.y != 0 {
-                view.frame.origin.y = 0
-            }
-        }
-    }
-    
-    //Displaying Error Alert
     func displayError(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .actionSheet)
         
@@ -136,5 +105,32 @@ extension LocationInputViewController {
         
         present(alert, animated: true, completion: nil)
     }
-
 }
+
+extension LocationInputViewController: KeyboardResponder {
+    
+    var keyboardReferenceElement: UIView {
+        return submitButton
+    }
+
+    //Respond to Taps
+    @IBAction func unselectTextField(handler: UITapGestureRecognizer) {
+        
+        locationTextField.resignFirstResponder()
+    }
+    
+    //Respond to Keyboard Notifications
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            adjustViewWhenKeyboardShows(keyboardSize)
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        adjustViewWhenKeyboardHides()
+    }
+}
+

@@ -18,7 +18,7 @@ struct StudentInformation {
     let mediaUrl: String
     let objectId: String
     let uniqueKey: String
-    
+        
     init?(studentDictionary: [String: AnyObject]) {
         
         guard let latitude = studentDictionary["latitude"] as? Double,

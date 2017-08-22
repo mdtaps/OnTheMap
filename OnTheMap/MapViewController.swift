@@ -23,14 +23,13 @@ class MapViewController: PinViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
+        populatePointAnnotationsFrom(studentData: StudentPins.sharedInstance)
     }
         
     func populatePointAnnotationsFrom(studentData: [StudentInformation]) {
         
         mapView.removeAnnotations(mapView.annotations)
         pointAnnotationsArray.removeAll()
-        print("populate called")
         
         for data in studentData {
             
@@ -50,7 +49,7 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         
-        populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
+        populatePointAnnotationsFrom(studentData: StudentPins.sharedInstance)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

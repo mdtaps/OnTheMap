@@ -23,6 +23,11 @@ class UdacityClient: NSObject {
     var userLastName: String?
     var objectId: String?
     
+    var facebookAccessToken: String?
+    var loginMethod: Login.Method?
+    var udacityLoginScreen: UdacityLoginViewController?
+    
+    //POST Task and handler
     func udacityPOSTTaskWith(method: String, _ completionHandlerForPOST: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) {
         
         func sendError(_ error: String) {
@@ -78,6 +83,7 @@ class UdacityClient: NSObject {
         task.resume()
     }
     
+    //GET Task and handler
     func udacityGETTaskWith(urlMethod: String, completionHandlerForGET: @escaping (AnyObject?, _ error: NSError?) -> Void) {
         
         func sendError(error: String) {
@@ -119,10 +125,11 @@ class UdacityClient: NSObject {
         task.resume()
     }
     
+    //DELETE Task and handler
     func udacityDELETETaskWith(urlMethod: String, completionHandlerForDELETE: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) {
         
         func sendError(error: String) {
-            completionHandlerForDELETE(nil, NSError(domain: "udacityDELETEaskWith", code: 1, userInfo: [NSLocalizedDescriptionKey: error]))
+            completionHandlerForDELETE(nil, NSError(domain: "udacityDELETETaskWith", code: 1, userInfo: [NSLocalizedDescriptionKey: error]))
         }
         
         guard let request = udacityUrlDELETERequestWith(method: urlMethod) else {
@@ -159,8 +166,10 @@ class UdacityClient: NSObject {
         
         task.resume()
     }
-    
+        
     //MARK: Private Functions
+    
+    //GET Request
     private func udacityUrlGETRequestWith(method: String) -> NSMutableURLRequest? {
         
         let url = udacityUrl(pathExtension: method)
@@ -168,15 +177,13 @@ class UdacityClient: NSObject {
         
         request.httpMethod = "GET"
         
-        
-        
         return request
     }
 
+    //POST Request
     private func udacityUrlPOSTRequestWith(method: String) -> NSMutableURLRequest? {
         
         let url = udacityUrl(pathExtension: method)
-        print("The url is : \(url.absoluteString)")
         let request = NSMutableURLRequest(url: url)
         
         let headers = [
@@ -198,16 +205,26 @@ class UdacityClient: NSObject {
         return request
     }
     
+    //DELETE Request
     private func udacityUrlDELETERequestWith(method: String) -> NSMutableURLRequest? {
         let url = udacityUrl(pathExtension: method)
         let request = NSMutableURLRequest(url: url)
         
         request.httpMethod = "DELETE"
         
+        switch cookieValueCheck() {
+        case .Set(let value):
+            request.setValue(value, forHTTPHeaderField: UdacityClient.HTTPHeaders.XSRFToken)
+        case .NotSet:
+            return nil
+            
+        }
+        
         return request
     }
     
-    private func udacityUrl(pathExtension: String) -> URL {
+    //Create Udacity URL
+    func udacityUrl(pathExtension: String) -> URL {
         var components = URLComponents()
         components.scheme = UdacityClient.APIConstants.ApiScheme
         components.host = UdacityClient.APIConstants.ApiHost
@@ -216,20 +233,22 @@ class UdacityClient: NSObject {
         return components.url!
     }
     
-    private func udacityCorrectedData(_ data: Data) -> Data {
+    //Correct data returned from Udacity for specified range
+    func udacityCorrectedData(_ data: Data) -> Data {
         let range = Range(uncheckedBounds: (5, data.count))
         let newData = data.subdata(in: range)
         
         return newData
     }
     
-    private func addCookieValue(request: NSMutableURLRequest) -> NSMutableURLRequest? {
-        var xsrfCookie: HTTPCookie? = nil
+    //Deleting cooking for logout function
+    private func cookieValueCheck() -> CookieValue {
         
-        var sharedCookieStorage = HTTPCookieStorage.shared
+        var xsrfCookie: HTTPCookie? = nil
+        let sharedCookieStorage = HTTPCookieStorage.shared
+        
         guard let cookies = sharedCookieStorage.cookies else {
-            print("Logout Failed")
-            return nil
+            return .NotSet
         }
         
         for cookie in cookies {
@@ -240,10 +259,16 @@ class UdacityClient: NSObject {
         }
         
         if let xsrfCookie = xsrfCookie {
-            request.setValue(xsrfCookie.value, forHTTPHeaderField: UdacityClient.HTTPHeaders.XSRFToken)
-            return request
+            return .Set(xsrfCookie.value)
         } else {
-            return nil
+            return .NotSet
         }
     }
+    
+    //Enum for delete cookie check
+    private enum CookieValue {
+        case Set(String)
+        case NotSet
+    }
+
 }

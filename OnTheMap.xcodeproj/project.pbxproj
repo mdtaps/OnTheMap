@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		202A9E8E5888BB769196BDEC /* Pods_OnTheMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71764E9DB36CE4329645528E /* Pods_OnTheMapTests.framework */; };
 		3C14153F0E8EC89188BE510F /* Pods_OnTheMapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E980A5A6F5CB612A0A1343 /* Pods_OnTheMapUITests.framework */; };
+		570D8B011F240503008E5891 /* LoginTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570D8B001F240503008E5891 /* LoginTypeModel.swift */; };
 		5758472B1E77C4CE00461C1D /* LinkInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758472A1E77C4CE00461C1D /* LinkInputViewController.swift */; };
 		575FE2731E63E34E00D9817E /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575FE2721E63E34E00D9817E /* UsersTableViewController.swift */; };
 		575FE2751E63F1D500D9817E /* UserTableViewCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575FE2741E63F1D500D9817E /* UserTableViewCellController.swift */; };
 		575FE2771E6B58A600D9817E /* LocationInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575FE2761E6B58A600D9817E /* LocationInputViewController.swift */; };
 		576C08141F14971800503628 /* PinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576C08131F14971800503628 /* PinViewController.swift */; };
+		579681991F1DF7C600D00F01 /* UdacityClientForFacebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579681981F1DF7C600D00F01 /* UdacityClientForFacebook.swift */; };
 		579ED9631ED411C40014D5D3 /* ParseURLClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579ED9621ED411C40014D5D3 /* ParseURLClient.swift */; };
 		579F93DF1F161FD6008A5678 /* FacebookCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 572C22FA1F1615BA002E1194 /* FacebookCore.framework */; };
 		579F93E01F161FD6008A5678 /* FacebookLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 572C22FB1F1615BA002E1194 /* FacebookLogin.framework */; };
@@ -42,6 +44,9 @@
 		AFE4624D1E4995AF005EF633 /* UdacityConvenienceFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE4624C1E4995AF005EF633 /* UdacityConvenienceFunctions.swift */; };
 		AFE4624F1E49AC4D005EF633 /* GeneralNetworkingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE4624E1E49AC4D005EF633 /* GeneralNetworkingClient.swift */; };
 		C3FEBF0F1D72E0ADBD38BBC8 /* Pods_OnTheMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB337F8CC14CDC5AD6DD9D7 /* Pods_OnTheMap.framework */; };
+		F4631E3A1F2D8B4300561CAB /* FacebookLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4631E391F2D8B4300561CAB /* FacebookLogin.swift */; };
+		F48C59DF1F39663700F64158 /* StudentPinsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59DE1F39663700F64158 /* StudentPinsModel.swift */; };
+		F48C59E31F39832C00F64158 /* KeboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59E21F39832C00F64158 /* KeboardResponder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +69,7 @@
 /* Begin PBXFileReference section */
 		06184D08948C592EB9529553 /* Pods-OnTheMapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMapUITests/Pods-OnTheMapUITests.release.xcconfig"; sourceTree = "<group>"; };
 		177F7AA8018C50E40AB60BC2 /* Pods-OnTheMapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMapTests/Pods-OnTheMapTests.release.xcconfig"; sourceTree = "<group>"; };
+		570D8B001F240503008E5891 /* LoginTypeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTypeModel.swift; sourceTree = "<group>"; };
 		572C22FA1F1615BA002E1194 /* FacebookCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookCore.framework; path = "../../Library/Developer/Xcode/DerivedData/OnTheMap-algvslqqtsqmcfdzbtvnrcbnaekn/Build/Products/Debug-iphonesimulator/FacebookCore/FacebookCore.framework"; sourceTree = "<group>"; };
 		572C22FB1F1615BA002E1194 /* FacebookLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookLogin.framework; path = "../../Library/Developer/Xcode/DerivedData/OnTheMap-algvslqqtsqmcfdzbtvnrcbnaekn/Build/Products/Debug-iphonesimulator/FacebookLogin/FacebookLogin.framework"; sourceTree = "<group>"; };
 		572C22FC1F1615BA002E1194 /* FacebookShare.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookShare.framework; path = "Pods/../build/Debug-iphoneos/FacebookShare/FacebookShare.framework"; sourceTree = "<group>"; };
@@ -75,6 +81,7 @@
 		575FE2741E63F1D500D9817E /* UserTableViewCellController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCellController.swift; sourceTree = "<group>"; };
 		575FE2761E6B58A600D9817E /* LocationInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInputViewController.swift; sourceTree = "<group>"; };
 		576C08131F14971800503628 /* PinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinViewController.swift; sourceTree = "<group>"; };
+		579681981F1DF7C600D00F01 /* UdacityClientForFacebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClientForFacebook.swift; sourceTree = "<group>"; };
 		579ED9621ED411C40014D5D3 /* ParseURLClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseURLClient.swift; sourceTree = "<group>"; };
 		579F93E11F161FD6008A5678 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "Pods/../build/Debug-iphoneos/Bolts/Bolts.framework"; sourceTree = "<group>"; };
 		579F93E21F161FD6008A5678 /* FacebookShare.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookShare.framework; path = "Pods/../build/Debug-iphoneos/FacebookShare/FacebookShare.framework"; sourceTree = "<group>"; };
@@ -85,6 +92,7 @@
 		57A6F61B1E58338D00AE5753 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		57C054791ECC080E0099D39E /* LocationInputModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationInputModel.swift; sourceTree = "<group>"; };
 		57CD4DE11E5A4B6B006D6EC8 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		57D690541F17109800E8B693 /* OnTheMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OnTheMap.entitlements; sourceTree = "<group>"; };
 		58ABC5A985045D5EDBEE09F4 /* Pods-OnTheMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap.debug.xcconfig"; sourceTree = "<group>"; };
 		71764E9DB36CE4329645528E /* Pods_OnTheMapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnTheMapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93E980A5A6F5CB612A0A1343 /* Pods_OnTheMapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnTheMapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +120,9 @@
 		B7583718334C7B54FD52CDC7 /* Pods-OnTheMapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMapUITests/Pods-OnTheMapUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D7C9B674AC2405224651B11F /* Pods-OnTheMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap.release.xcconfig"; sourceTree = "<group>"; };
 		EBB337F8CC14CDC5AD6DD9D7 /* Pods_OnTheMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnTheMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4631E391F2D8B4300561CAB /* FacebookLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookLogin.swift; sourceTree = "<group>"; };
+		F48C59DE1F39663700F64158 /* StudentPinsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentPinsModel.swift; sourceTree = "<group>"; };
+		F48C59E21F39832C00F64158 /* KeboardResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeboardResponder.swift; sourceTree = "<group>"; };
 		FC84CE730D53A3F27C9232F1 /* Pods-OnTheMapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMapTests/Pods-OnTheMapTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -185,14 +196,11 @@
 		AF6DF3CD1E4443C900D3B805 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				57D690541F17109800E8B693 /* OnTheMap.entitlements */,
 				AF6DF3CE1E4443C900D3B805 /* AppDelegate.swift */,
-				AF6DF3D01E4443C900D3B805 /* UdacityLoginViewController.swift */,
-				576C08131F14971800503628 /* PinViewController.swift */,
-				57CD4DE11E5A4B6B006D6EC8 /* MapViewController.swift */,
-				575FE2721E63E34E00D9817E /* UsersTableViewController.swift */,
-				575FE2741E63F1D500D9817E /* UserTableViewCellController.swift */,
-				575FE2761E6B58A600D9817E /* LocationInputViewController.swift */,
-				5758472A1E77C4CE00461C1D /* LinkInputViewController.swift */,
+				F4631E381F2D8AF600561CAB /* Login */,
+				F4631E3B1F2D948600561CAB /* Pin Data */,
+				F4631E3C1F2D94E800561CAB /* Create Pin */,
 				AFE462481E4991BE005EF633 /* Model */,
 				AF6DF3D21E4443C900D3B805 /* Main.storyboard */,
 				AF6DF3D51E4443C900D3B805 /* Assets.xcassets */,
@@ -223,8 +231,11 @@
 		AFE462481E4991BE005EF633 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AF6DF3FC1E450DD100D3B805 /* GCD.swift */,
+				F48C59E21F39832C00F64158 /* KeboardResponder.swift */,
 				57C054791ECC080E0099D39E /* LocationInputModel.swift */,
+				570D8B001F240503008E5891 /* LoginTypeModel.swift */,
+				F48C59DE1F39663700F64158 /* StudentPinsModel.swift */,
+				AF6DF3FC1E450DD100D3B805 /* GCD.swift */,
 				AFE462491E4991D1005EF633 /* Clients */,
 			);
 			name = Model;
@@ -246,6 +257,7 @@
 			children = (
 				AF07979B1E4839AD000E96E2 /* UdacityClient.swift */,
 				AFE4624C1E4995AF005EF633 /* UdacityConvenienceFunctions.swift */,
+				579681981F1DF7C600D00F01 /* UdacityClientForFacebook.swift */,
 				AF07979D1E4839DA000E96E2 /* UdacityConstants.swift */,
 			);
 			name = Udacity;
@@ -294,6 +306,35 @@
 				06184D08948C592EB9529553 /* Pods-OnTheMapUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F4631E381F2D8AF600561CAB /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				AF6DF3D01E4443C900D3B805 /* UdacityLoginViewController.swift */,
+				F4631E391F2D8B4300561CAB /* FacebookLogin.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		F4631E3B1F2D948600561CAB /* Pin Data */ = {
+			isa = PBXGroup;
+			children = (
+				576C08131F14971800503628 /* PinViewController.swift */,
+				57CD4DE11E5A4B6B006D6EC8 /* MapViewController.swift */,
+				575FE2721E63E34E00D9817E /* UsersTableViewController.swift */,
+				575FE2741E63F1D500D9817E /* UserTableViewCellController.swift */,
+			);
+			name = "Pin Data";
+			sourceTree = "<group>";
+		};
+		F4631E3C1F2D94E800561CAB /* Create Pin */ = {
+			isa = PBXGroup;
+			children = (
+				575FE2761E6B58A600D9817E /* LocationInputViewController.swift */,
+				5758472A1E77C4CE00461C1D /* LinkInputViewController.swift */,
+			);
+			name = "Create Pin";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,6 +416,11 @@
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 7W4UP5Q55U;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					AF6DF3DE1E4443C900D3B805 = {
 						CreatedOnToolsVersion = 8.1;
@@ -474,9 +520,24 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-OnTheMap/Pods-OnTheMap-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -489,13 +550,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OnTheMap-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9FB88F4512C515C90A2809D1 /* [CP] Check Pods Manifest.lock */ = {
@@ -504,13 +568,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OnTheMapTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D6747FF6281D5A04B2BC2FE9 /* [CP] Copy Pods Resources */ = {
@@ -534,13 +601,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OnTheMapUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E34F04DF3C5D2EEFB0637592 /* [CP] Embed Pods Frameworks */ = {
@@ -583,8 +653,10 @@
 				AF02042B1E4FAB0500BB0AB5 /* ParseConveniceFunctions.swift in Sources */,
 				AF6DF3FF1E4552E300D3B805 /* ParseClient.swift in Sources */,
 				576C08141F14971800503628 /* PinViewController.swift in Sources */,
+				F48C59E31F39832C00F64158 /* KeboardResponder.swift in Sources */,
 				57A504421EF10F3600B03303 /* ActivityIndicator.swift in Sources */,
 				AF07979E1E4839DA000E96E2 /* UdacityConstants.swift in Sources */,
+				F4631E3A1F2D8B4300561CAB /* FacebookLogin.swift in Sources */,
 				AF6DF4011E45787D00D3B805 /* ParseConstants.swift in Sources */,
 				575FE2751E63F1D500D9817E /* UserTableViewCellController.swift in Sources */,
 				5758472B1E77C4CE00461C1D /* LinkInputViewController.swift in Sources */,
@@ -595,7 +667,10 @@
 				AF6DF3D11E4443C900D3B805 /* UdacityLoginViewController.swift in Sources */,
 				57CD4DE21E5A4B6B006D6EC8 /* MapViewController.swift in Sources */,
 				579ED9631ED411C40014D5D3 /* ParseURLClient.swift in Sources */,
+				570D8B011F240503008E5891 /* LoginTypeModel.swift in Sources */,
 				AFE4624F1E49AC4D005EF633 /* GeneralNetworkingClient.swift in Sources */,
+				579681991F1DF7C600D00F01 /* UdacityClientForFacebook.swift in Sources */,
+				F48C59DF1F39663700F64158 /* StudentPinsModel.swift in Sources */,
 				AF6DF3CF1E4443C900D3B805 /* AppDelegate.swift in Sources */,
 				AFE4624D1E4995AF005EF633 /* UdacityConvenienceFunctions.swift in Sources */,
 				57A6F61C1E58338D00AE5753 /* StudentInformation.swift in Sources */,
@@ -756,6 +831,7 @@
 			baseConfigurationReference = 58ABC5A985045D5EDBEE09F4 /* Pods-OnTheMap.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OnTheMap/OnTheMap.entitlements;
 				DEVELOPMENT_TEAM = 7W4UP5Q55U;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -778,6 +854,7 @@
 			baseConfigurationReference = D7C9B674AC2405224651B11F /* Pods-OnTheMap.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OnTheMap/OnTheMap.entitlements;
 				DEVELOPMENT_TEAM = 7W4UP5Q55U;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

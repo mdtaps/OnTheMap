@@ -51,6 +51,15 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
         let region = MKCoordinateRegion(center: coordinate, span: span)
         
         mapView.setRegion(region, animated: true)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
     }
     
     
@@ -95,5 +104,26 @@ class LinkInputViewController: UIViewController, UITextFieldDelegate {
         alert.preferredAction = action
         
         present(alert, animated: true, completion: nil)
+    }
+}
+
+extension LinkInputViewController: KeyboardResponder {
+        
+    var keyboardReferenceElement: UIView {
+        return urlTextField
+    }
+    
+    //Respond to Keyboard Notifications
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            adjustViewWhenKeyboardShows(keyboardSize)
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        adjustViewWhenKeyboardHides()
     }
 }

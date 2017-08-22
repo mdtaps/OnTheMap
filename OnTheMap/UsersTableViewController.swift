@@ -29,7 +29,7 @@ extension UsersTableViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return ParseClient.shared.studentPins.count
+        return StudentPins.sharedInstance.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -42,7 +42,7 @@ extension UsersTableViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
-        let student = ParseClient.shared.studentPins[indexPath.row]
+        let student = StudentPins.sharedInstance[indexPath.row]
         
         let firstName = student.firstName
         let lastName = student.lastName
@@ -54,7 +54,7 @@ extension UsersTableViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let student = ParseClient.shared.studentPins[indexPath.row]
+        let student = StudentPins.sharedInstance[indexPath.row]
         
         guard let url = URL(string: student.mediaUrl) else {
             print("URL creation failed")

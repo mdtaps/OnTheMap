@@ -52,6 +52,18 @@ extension UdacityClient {
         
     }
     
+    func loginWithFacebook(_ completionHandlerForFacebookLogin: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        
+        getFacebookLoginToken { (success, error) in
+            
+            if success {
+                completionHandlerForFacebookLogin(success, nil)
+            } else {
+                completionHandlerForFacebookLogin(success, error?.localizedDescription)
+            }
+        }
+    }
+    
     private func getAccountKey(completionHandlerForAccountKey: @escaping (_ success: Bool, _ accountKey: String?, _ error: NSError?) -> Void) {
         
         udacityPOSTTaskWith(method: Methods.session) { (results, error) in
@@ -64,7 +76,6 @@ extension UdacityClient {
                 }
                 
                 if let key = account["key"] as? String {
-                    print(key)
                     completionHandlerForAccountKey(true, key, nil)
                 } else {
                     completionHandlerForAccountKey(false, nil, NSError(domain: "getAccountKey", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account key from parsed Json data"]))
@@ -136,6 +147,34 @@ extension UdacityClient {
             }
             
             completionHandlerForDeleteToken(true, nil)
+            
+        }
+    }
+    
+    private func getFacebookLoginToken(_ completionHandlerForFacebookToken: @escaping (_ success: Bool, _ error: NSError?) -> Void) {
+        
+        udacityFBPOSTRequestWith(urlMethod: UdacityClient.Methods.session) { (results, error) in
+            
+            func sendError(_ errorString: String) {
+                completionHandlerForFacebookToken(false, NSError(domain: "getFacebookLoginToken", code: 1, userInfo: [NSLocalizedDescriptionKey : errorString]))
+            }
+            
+            if error != nil || results == nil {
+                sendError(error?.localizedDescription ?? "An unknown error occured")
+            } else {
+                guard let account = results?["account"] as? [String: AnyObject] else {
+                    completionHandlerForFacebookToken(false, NSError(domain: "getAccountKey", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account info from parsed Json data"]))
+                    return
+                }
+                
+                if let key = account["key"] as? String {
+                    UdacityClient.shared.userId = key
+                } else {
+                    completionHandlerForFacebookToken(false, NSError(domain: "getAccountKey", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get account key from parsed Json data"]))
+                }
+            }
+            
+            completionHandlerForFacebookToken(true, nil)
             
         }
     }

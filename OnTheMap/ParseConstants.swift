@@ -43,8 +43,7 @@ extension ParseClient {
     
     struct URLParameterValues {
         static let Limit = "100"
-        static let Skip = "400"
-        static let Order = "-createdAt"
+        static let Order = "-updatedAt"
     }
     
     

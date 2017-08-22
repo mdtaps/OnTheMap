@@ -9,16 +9,14 @@
 import UIKit
 
 class PinViewController: UIViewController {
-
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         let logoutButton = UIBarButtonItem(title: "Logout",
                                            style: .done,
                                            target: self,
-                                           action: #selector(
-                                            logoutPressed(_:)))
+                                           action: #selector(logoutPressed(_:)))
         
         let addPinButton = UIBarButtonItem(image: #imageLiteral(resourceName: "Pin"),
                                            style: .plain,
@@ -32,12 +30,13 @@ class PinViewController: UIViewController {
     }
     
     
+    
     //MARK: Pin adding process
     func addPin(_ sender: AnyObject) {
         print("add pin pressed")
         //Check for user already in existence
         if UdacityClient.shared.userId != nil {
-            for pin in ParseClient.shared.studentPins {
+            for pin in StudentPins.sharedInstance {
                 if pin.uniqueKey == UdacityClient.shared.userId {
                     ParseClient.shared.duplicateExists = true
                     ParseClient.shared.userObjectId = pin.objectId
@@ -51,6 +50,8 @@ class PinViewController: UIViewController {
             } else {
                 launchPinAddingProcess(UIAlertAction())
             }
+        } else {
+            displayAlert(title: "No User ID", message: "User ID not set")
         }
     }
     
@@ -67,23 +68,31 @@ class PinViewController: UIViewController {
     func logoutPressed(_ sender: AnyObject) {
         ActivityIndicator.start(view: self.view)
         UdacityClient.shared.logoutFromUdacity { (success, error) in
+            ActivityIndicator.end(view: self.view)
             if let error = error {
-                ActivityIndicator.end(view: self.view)
                 self.displayAlert(title: "Logout Failure", message: error)
             } else {
                 if success {
-                    ActivityIndicator.end(view: self.view)
                     performUIUpdatesOnMain {
-                        self.dismiss(animated: true, completion: nil)
+                        self.dismiss(animated: true) {
+                            if UdacityClient.shared.loginMethod == .Facebook {
+                                
+                                if let loginScreen = UdacityClient.shared.udacityLoginScreen {
+                                    loginScreen.logoutPressedWhenLoggedInWithFacebook()
+                                } else {
+                                    self.displayAlert(title: "Facebook Logout Failed", message: "Facebook was unable to log out")
+                                }
+                                
+                            }
+                        }
                     }
                 } else {
-                    ActivityIndicator.end(view: self.view)
                     self.displayAlert(title: "Logout Failure", message: "Logout caused an error")
                 }
             }
         }
     }
-
+    
     fileprivate func displayAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
@@ -138,7 +147,7 @@ class PinViewController: UIViewController {
     
     func updatePinViews() {
         if let vc = self as? MapViewController {
-            vc.populatePointAnnotationsFrom(studentData: ParseClient.shared.studentPins)
+            vc.populatePointAnnotationsFrom(studentData: StudentPins.sharedInstance)
         } else if let vc = self as? UsersTableViewController {
             vc.usersTableView.reloadData()
         }

@@ -15,7 +15,6 @@ class ParseClient: NSObject {
     
     let session = URLSession.shared
     
-    var studentPins = [StudentInformation]()
     var userObjectId = ""
     var duplicateExists = false
     
