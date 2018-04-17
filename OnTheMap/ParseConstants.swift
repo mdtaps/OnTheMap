@@ -26,6 +26,7 @@ extension ParseClient {
     
     struct HTTPHeaderValues {
         static let ApplicationId = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
+        //Public Parse API Key given by Udacity
         static let ApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
         static let ContentType = "application/json"
     }
