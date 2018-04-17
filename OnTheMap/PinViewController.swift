@@ -66,9 +66,11 @@ class PinViewController: UIViewController {
     }
     
     func logoutPressed(_ sender: AnyObject) {
-        ActivityIndicator.start(view: self.view)
+        ActivityIndicator.activityIndicator.startAnimating()
         UdacityClient.shared.logoutFromUdacity { (success, error) in
-            ActivityIndicator.end(view: self.view)
+            performUIUpdatesOnMain {
+                ActivityIndicator.activityIndicator.startAnimating()
+            }
             if let error = error {
                 self.displayAlert(title: "Logout Failure", message: error)
             } else {
@@ -76,7 +78,6 @@ class PinViewController: UIViewController {
                     performUIUpdatesOnMain {
                         self.dismiss(animated: true) {
                             if UdacityClient.shared.loginMethod == .Facebook {
-                                
                                 if let loginScreen = UdacityClient.shared.udacityLoginScreen {
                                     loginScreen.logoutPressedWhenLoggedInWithFacebook()
                                 } else {
@@ -84,6 +85,7 @@ class PinViewController: UIViewController {
                                 }
                                 
                             }
+                            
                         }
                     }
                 } else {

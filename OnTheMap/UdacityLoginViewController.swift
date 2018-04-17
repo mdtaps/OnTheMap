@@ -33,7 +33,7 @@ class UdacityLoginViewController: UIViewController {
     
     @IBAction func loginPressed(_ sender: UIButton) {
         
-        ActivityIndicator.start(view: view)
+        ActivityIndicator.activityIndicator.startAnimating()
         
         guard let email = emailField.text,
             let password = passwordField.text else {
@@ -104,7 +104,7 @@ extension UdacityLoginViewController {
                 if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "MapTabBarController") {
                     UdacityClient.shared.loginMethod = .Standard
                     performUIUpdatesOnMain {
-                        ActivityIndicator.end(view: self.view)
+                        ActivityIndicator.activityIndicator.stopAnimating()
                         self.present(viewController, animated: true, completion: { 
                             self.passwordField.text = ""
                         })
@@ -126,7 +126,7 @@ extension UdacityLoginViewController {
         alert.preferredAction = action
         
         performUIUpdatesOnMain {
-            ActivityIndicator.end(view: self.view)
+            ActivityIndicator.activityIndicator.stopAnimating()
             self.present(alert, animated: true, completion: nil)
         }
     }

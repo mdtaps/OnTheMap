@@ -56,7 +56,7 @@ extension UdacityLoginViewController: LoginButtonDelegate {
                                 UdacityClient.shared.udacityLoginScreen = self
                                 performUIUpdatesOnMain {
                                     self.present(viewController, animated: true, completion: {
-                                        ActivityIndicator.end(view: self.view)
+                                        ActivityIndicator.activityIndicator.stopAnimating()
                                         self.passwordField.text = ""
                                     })
                                 }

@@ -58,11 +58,11 @@ class LocationInputViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        ActivityIndicator.start(view: self.view)
+        ActivityIndicator.activityIndicator.startAnimating()
         
         createLocationFromString(locationString: locationText) { (coordinate, locality, error) in
             
-            ActivityIndicator.end(view: self.view)
+            ActivityIndicator.activityIndicator.stopAnimating()
             
             guard error == nil else {
                 let errorString = error?.localizedDescription ?? "An unknown error occured"

@@ -2,8 +2,8 @@
 //  ActivityIndicator.swift
 //  OnTheMap
 //
-//  Created by Lindsey Renee Eaton on 6/13/17.
-//  Copyright © 2017 Mark Tapia. All rights reserved.
+//  Created by Mark Tapia on 4/16/18.
+//  Copyright © 2018 Mark Tapia. All rights reserved.
 //
 
 import Foundation
@@ -11,31 +11,25 @@ import UIKit
 
 class ActivityIndicator {
     
-    static var activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-    
-    static func start(view: UIView) {
-        performUIUpdatesOnMain {
-            setupActivityIndicator(view: view)
-            view.addSubview(activityIndicator)
+        static var width: CGFloat {
+            
+            let screenWidth = UIScreen.main.bounds.width
+            return screenWidth / 3 - 10
         }
-    }
+        static var activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: width, height: width))
     
-    static func end(view:UIView) {
-        performUIUpdatesOnMain {
-            activityIndicator.stopAnimating()
-            activityIndicator.removeFromSuperview()
+        static func getActivityIndicator() -> UIActivityIndicatorView {
+            setupActivityIndicator()
+            return activityIndicator
         }
-    }
-    
-    private static func setupActivityIndicator(view: UIView) {
-        var backgroundColor = UIColor.lightGray
-        backgroundColor = backgroundColor.withAlphaComponent(0.7)
-        
-        activityIndicator.center = view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.backgroundColor = backgroundColor
-        activityIndicator.layer.cornerRadius = 7
-        activityIndicator.startAnimating()
-    }
-    
+
+        private static func setupActivityIndicator() {
+            let backgroundColor = UIColor.darkGray
+            
+            activityIndicator.hidesWhenStopped = true
+            activityIndicator.backgroundColor = backgroundColor
+            activityIndicator.layer.cornerRadius = 7
+            activityIndicator.startAnimating()
+            
+        }
 }
