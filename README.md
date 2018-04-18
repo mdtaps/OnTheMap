@@ -1,4 +1,4 @@
-# Learn To Pray
+# On The Map
 
 On The Map is an app that allows users to log in and retrieve user locations from an online server. The pins are shown as pins on a map. The user can also add their own pin on the map.
 

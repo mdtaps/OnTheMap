@@ -123,7 +123,6 @@
 		F48C59DE1F39663700F64158 /* StudentPinsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentPinsModel.swift; sourceTree = "<group>"; };
 		F48C59E21F39832C00F64158 /* KeboardResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeboardResponder.swift; sourceTree = "<group>"; };
 		F4B8FB2A2085C9F60007BF29 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
-		F4B8FB2C2085D26D0007BF29 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FC84CE730D53A3F27C9232F1 /* Pods-OnTheMapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnTheMapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OnTheMapTests/Pods-OnTheMapTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -207,7 +206,6 @@
 				AF6DF3D51E4443C900D3B805 /* Assets.xcassets */,
 				AF6DF3D71E4443C900D3B805 /* LaunchScreen.storyboard */,
 				AF6DF3DA1E4443C900D3B805 /* Info.plist */,
-				F4B8FB2C2085D26D0007BF29 /* README.md */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
